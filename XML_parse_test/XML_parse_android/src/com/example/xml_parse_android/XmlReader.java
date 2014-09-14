@@ -1,5 +1,6 @@
 package com.example.xml_parse_android;
 
+import java.io.File;
 import java.io.IOException;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -16,8 +17,9 @@ public class XmlReader {
 	public void domRead(String file) throws SAXException, IOException, ParserConfigurationException {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder documentBuilder = factory.newDocumentBuilder();
-		Document document = documentBuilder.parse(file);
-
+		File fp = new File(file);
+		Document document = documentBuilder.parse(fp);
+		
 		Element root = document.getDocumentElement();
 		
 		//ルート要素のノード名を取得する
@@ -57,9 +59,9 @@ public class XmlReader {
 				}
 			}
 
-
+			
 		}
 
-
+		
 	}
 }
