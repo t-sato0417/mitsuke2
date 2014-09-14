@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<persons name="my friend">
+    <person name="yoshida">
+		<age>28</age>
+		<interest>basketball</interest>
+    </person>
+    <person name="yamada">
+		<age>26</age>
+		<interest>baseball</interest>
+    </person>
+</persons>
