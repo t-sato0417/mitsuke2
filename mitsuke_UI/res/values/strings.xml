@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">mitsuke_sample</string>
+    <string name="make">ルートを作成する</string>
+    <string name="watch">ルートを見る</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_sub1">sub1Activity</string>
+    <string name="title_activity_sub2">sub2Activity</string>
+
+</resources>
