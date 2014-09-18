@@ -23,13 +23,32 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
+class mapcontrol{
+	GoogleMap map;
+	LatLng deflatlng=new LatLng(43.0675,141.350784);
+	void setMap(GoogleMap map){
+		this.map = map;
+	}
+	void SaveDate(){
+		 deflatlng =new LatLng(
+				 map.getMyLocation().getLatitude(),
+				 map.getMyLocation().getLongitude());
+	}
+	void CameraUpdate(){
+		CameraUpdate cu = 
+			CameraUpdateFactory.newLatLngZoom(
+					deflatlng, 15);
+		map.moveCamera(cu);
+	}
+}
 
 public class Sub1Activity extends FragmentActivity{
 	
 	public SimpleSideDrawer mSlidingMenu;
 	public static final String TAG = "TEST";
-	GoogleMap map;
-
+	static GoogleMap map;
+	static int initialized =0;
+	static mapcontrol mapdate=new mapcontrol();
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		System.out.println("FRAGMENT PRINT POINT");
@@ -50,7 +69,6 @@ public class Sub1Activity extends FragmentActivity{
         mSlidingMenu = new SimpleSideDrawer(this);
         mSlidingMenu.setLeftBehindContentView(R.layout.side_menu);
         btn5.setOnClickListener(new OnClickListener() {
-        	
             @Override 
             public void onClick(View v) {
             	mSlidingMenu.toggleLeftDrawer();
@@ -60,23 +78,15 @@ public class Sub1Activity extends FragmentActivity{
 		map = ((SupportMapFragment)
 				getSupportFragmentManager().findFragmentById(R.id.map))
 				.getMap();
-
 		MapsInitializer.initialize(this);
+		mapdate.setMap(map);
 		
-		
-
-		CameraUpdate cu = 
-				CameraUpdateFactory.newLatLng(
-						new LatLng(43.0675, 141.350784));
-		map.moveCamera(cu);
-
-		cu = 
-				CameraUpdateFactory.newLatLngZoom(
-						new LatLng(43.0675,141.350784), 15);
-		map.moveCamera(cu);
+		mapdate.CameraUpdate();
 		
 	}
-	
+	protected void onDestroy(){
+		mapdate.SaveDate();
+	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
