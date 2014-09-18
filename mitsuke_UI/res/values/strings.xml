@@ -7,5 +7,11 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_sub1">sub1Activity</string>
     <string name="title_activity_sub2">sub2Activity</string>
+    <string name="SpinnerPrompt">選択してください。</string>
+    <string name="spinner_prompt">データ一覧</string>
+    <string name="title_activity_sub3">Sub3Activity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="ret">戻る</string>
+    <string name="empty">表示するデータがありません</string>
 
 </resources>
