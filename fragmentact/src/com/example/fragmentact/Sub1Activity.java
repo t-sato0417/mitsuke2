@@ -24,6 +24,7 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.navdrawer.SimpleSideDrawer;
 //import com.navdrawer.SimpleSideDrawer;
 
@@ -31,7 +32,9 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -39,6 +42,56 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+
+class RouteData{//xmlのデータ保持するクラス
+	private List<LatLng> routeline=new ArrayList<LatLng>();
+	
+	String catecory;
+	String timestamp;
+	String infomation;
+	
+	int color=Color.BLUE;
+	
+	public List<LatLng> getroute(){
+		return routeline;	
+	}
+	void setColor(int color){
+		this.color=color;
+	}
+	public int getColor(){
+		return color;
+		
+	}
+	public void addpoint(LatLng latlng){
+		routeline.add(latlng);
+	}
+	
+	public void loadxml(String filename) throws SAXException, IOException{
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		
+		DocumentBuilder documentBuilder = null;
+		try {
+			documentBuilder = factory.newDocumentBuilder();
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		}
+		File fp = new File(filename);
+		
+		Document document = documentBuilder.parse(fp);
+		//Element root = document.getDocumentElement();
+		for(int i=0;i<document.getElementsByTagName("pt").getLength();i++){
+			String ptstr=document.getElementsByTagName("pt").item(i).getTextContent();
+			String strsplit[]=ptstr.split(",");
+			System.out.println("debug"+ptstr);
+			addpoint(new LatLng(Double.parseDouble(strsplit[0]),Double.parseDouble(strsplit[1])));
+		}
+	}
+	public void writexml(){
+		
+	}
+	
+	
+}
 
 class mapcontrol{
 	//mapのコントロールを担当する。
@@ -48,41 +101,41 @@ class mapcontrol{
 	private LatLng deflatlng=new LatLng(37.531603, 138.912883);
 	private float defZoom=15;
 	
-	private List<LatLng> routeline=new ArrayList();
+	static ArrayList<RouteData> routedata = new ArrayList<RouteData>();
+	static int initialize =0;
 	
-	public void setMap(GoogleMap map){
+	public void setMap(GoogleMap map) throws SAXException, IOException{
+		System.out.println("Debug:"+"setmap");
 		this.map = map;
+		if(initialize==0){
+			System.out.println("Debug:"+"initializde");
+			routedata.add(0,new RouteData());
+			
+			routedata.get(0).loadxml(Environment.getExternalStorageDirectory().getPath()+"/mitsuke2/test_data.xml");
+			
+			initialize=1;
+		}
+	}
+	public void drawroute(int routeindex){
+		System.out.println("test test");
+		
+		map.addPolyline(new PolylineOptions()
+	    .addAll(routedata.get(routeindex).getroute())
+	    .width(8)
+	    .color(routedata.get(routeindex).getColor()));
 	}
 	public void onDestroy(){
 		 deflatlng=map.getCameraPosition().target;
 		 defZoom = map.getCameraPosition().zoom;
-		 
-		 //System.out.println("Lat"+deflatlng.latitude+":lng"+deflatlng.longitude);
 	}
 	public void CameraUpdate(){
 		CameraUpdate cu = 
 			CameraUpdateFactory.newLatLngZoom(
 					deflatlng, defZoom);
 		map.moveCamera(cu);
+		drawroute(0);
 	}
-	public void loadxml(String filename) throws SAXException, IOException{
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		
-		DocumentBuilder documentBuilder = null;
-		try {
-			documentBuilder = factory.newDocumentBuilder();
-		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		File fp = new File("/mitsuke2/test_data.xml");
-		
-		Document document = documentBuilder.parse(fp);
-		Element root = document.getDocumentElement();
-		
-		root.getAttribute("pt");
-		
-	}
+	
 }
 
 public class Sub1Activity extends FragmentActivity{
@@ -122,7 +175,13 @@ public class Sub1Activity extends FragmentActivity{
 				getSupportFragmentManager().findFragmentById(R.id.map))
 				.getMap();
 		MapsInitializer.initialize(this);
-		mapdate.setMap(map);
+		try {
+			mapdate.setMap(map);
+		} catch (SAXException e) {
+			AlertBox("ERROR","XMLファイルのパースに失敗");
+		} catch (IOException e) {
+			AlertBox("ERROR","ファイルが存在しない");
+		}
 		
 		mapdate.CameraUpdate();
 		
