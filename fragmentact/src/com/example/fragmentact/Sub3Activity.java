@@ -1,4 +1,4 @@
-package com.example.mitsuke_UI;
+package com.example.fragmentact;
 
 import android.content.Intent;
 import android.os.Bundle;

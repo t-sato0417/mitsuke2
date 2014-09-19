@@ -408,15 +408,17 @@ containing a value of this type.
         public static final int taru=0x7f02001f;
     }
     public static final class id {
-        public static final int action_settings=0x7f07001d;
-        public static final int behind_btn=0x7f07001c;
+        public static final int LinearLayout01=0x7f07001a;
+        public static final int Spinner01=0x7f07001b;
+        public static final int action_settings=0x7f07001f;
+        public static final int behind_btn=0x7f07001e;
         public static final int book_now=0x7f070010;
         public static final int btn2=0x7f070015;
         public static final int btn3=0x7f070016;
         public static final int btn4=0x7f070018;
         public static final int btn5=0x7f070019;
-        public static final int btn6=0x7f07001a;
-        public static final int btn7=0x7f07001b;
+        public static final int btn8=0x7f07001c;
+        public static final int btn9=0x7f07001d;
         public static final int buyButton=0x7f07000a;
         public static final int buy_now=0x7f07000f;
         public static final int buy_with_google=0x7f07000e;
@@ -446,13 +448,15 @@ containing a value of this type.
         public static final int activity_main=0x7f030000;
         public static final int activity_sub1=0x7f030001;
         public static final int activity_sub2=0x7f030002;
-        public static final int side_menu=0x7f030003;
+        public static final int activity_sub3=0x7f030003;
+        public static final int side_menu=0x7f030004;
     }
     public static final class menu {
         public static final int main=0x7f0a0000;
     }
     public static final class string {
-        public static final int action_settings=0x7f06001c;
+        public static final int SpinnerPrompt=0x7f060020;
+        public static final int action_settings=0x7f06001d;
         public static final int app_name=0x7f06001a;
         /**  Button in confirmation dialog to enable Google Play services.  Clicking it
         will direct user to application settings of Google Play services where they
@@ -543,12 +547,19 @@ containing a value of this type.
         /**  Long form sign-in button text [CHAR LIMIT=30] 
          */
         public static final int common_signin_button_text_long=0x7f060018;
-        public static final int hello_world=0x7f06001b;
-        public static final int sub2=0x7f06001d;
+        public static final int empty=0x7f060025;
+        public static final int hello_world=0x7f060023;
+        public static final int make=0x7f06001b;
+        public static final int ret=0x7f060024;
+        public static final int spinner_prompt=0x7f060021;
+        public static final int title_activity_sub1=0x7f06001e;
+        public static final int title_activity_sub2=0x7f06001f;
+        public static final int title_activity_sub3=0x7f060022;
         /**  Text on a placeholder buy button when Google Play services is not
          available or up-to-date 
          */
         public static final int wallet_buy_button_place_holder=0x7f060019;
+        public static final int watch=0x7f06001c;
     }
     public static final class style {
         /** 

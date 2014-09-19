@@ -1,6 +1,20 @@
 //package com.example.androidmapview;
 package com.example.fragmentact;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
+
 import com.example.fragmentact.R;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.maps.CameraUpdate;
@@ -8,11 +22,14 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.navdrawer.SimpleSideDrawer;
 //import com.navdrawer.SimpleSideDrawer;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -24,21 +41,47 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 class mapcontrol{
-	GoogleMap map;
-	LatLng deflatlng=new LatLng(43.0675,141.350784);
-	void setMap(GoogleMap map){
+	//mapのコントロールを担当する。
+	//マップ表示のフラグメントがリセットされても直前の状態を保持できるようにする。
+	
+	private GoogleMap map;
+	private LatLng deflatlng=new LatLng(37.531603, 138.912883);
+	private float defZoom=15;
+	
+	private List<LatLng> routeline=new ArrayList();
+	
+	public void setMap(GoogleMap map){
 		this.map = map;
 	}
-	void SaveDate(){
-		 deflatlng =new LatLng(
-				 map.getMyLocation().getLatitude(),
-				 map.getMyLocation().getLongitude());
+	public void onDestroy(){
+		 deflatlng=map.getCameraPosition().target;
+		 defZoom = map.getCameraPosition().zoom;
+		 
+		 //System.out.println("Lat"+deflatlng.latitude+":lng"+deflatlng.longitude);
 	}
-	void CameraUpdate(){
+	public void CameraUpdate(){
 		CameraUpdate cu = 
 			CameraUpdateFactory.newLatLngZoom(
-					deflatlng, 15);
+					deflatlng, defZoom);
 		map.moveCamera(cu);
+	}
+	public void loadxml(String filename) throws SAXException, IOException{
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		
+		DocumentBuilder documentBuilder = null;
+		try {
+			documentBuilder = factory.newDocumentBuilder();
+		} catch (ParserConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		File fp = new File("/mitsuke2/test_data.xml");
+		
+		Document document = documentBuilder.parse(fp);
+		Element root = document.getDocumentElement();
+		
+		root.getAttribute("pt");
+		
 	}
 }
 
@@ -85,7 +128,8 @@ public class Sub1Activity extends FragmentActivity{
 		
 	}
 	protected void onDestroy(){
-		mapdate.SaveDate();
+		mapdate.onDestroy();
+		super.onDestroy();
 	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -107,5 +151,21 @@ public class Sub1Activity extends FragmentActivity{
 		return super.onOptionsItemSelected(item);
 		return true;*/
 	}
-	
+	public void AlertBox(String title,String Message){
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        // アラートダイアログのタイトルを設定します
+        alertDialogBuilder.setTitle(title);
+        // アラートダイアログのメッセージを設定します
+        alertDialogBuilder.setMessage(Message);
+     // アラートダイアログの肯定ボタンがクリックされた時に呼び出されるコールバックリスナーを登録します
+        alertDialogBuilder.setPositiveButton("OK",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        // アラートダイアログを表示します
+        alertDialog.show();
+	}
 }

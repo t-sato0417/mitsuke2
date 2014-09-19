@@ -1,4 +1,4 @@
-package com.example.mitsuke_UI;
+package com.example.fragmentact;
 
 //import android.support.v7.app.ActionBarActivity;
 import android.content.Intent;
