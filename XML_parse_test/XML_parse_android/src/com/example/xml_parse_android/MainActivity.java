@@ -6,8 +6,8 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -16,14 +16,16 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        //super.onCreate(savedInstanceState);
+        
+        //setContentView(R.layout.activity_main);
         
         try {
         	super.onCreate(savedInstanceState);
 			setContentView(R.layout.activity_main);
+			System.out.println("testestest");
 			XmlReader reader = new XmlReader();
-			reader.domRead("sample.xml");
+			reader.domRead("/sdcard/MAP/sample.xml");
         } catch (SAXException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

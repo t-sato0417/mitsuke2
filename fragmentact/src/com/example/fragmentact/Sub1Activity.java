@@ -16,7 +16,13 @@ import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
 import com.example.fragmentact.R;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
+import com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailedListener;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.location.LocationClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -30,9 +36,11 @@ import com.navdrawer.SimpleSideDrawer;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.location.Location;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.FragmentActivity;
@@ -43,7 +51,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-class RouteData{//xmlのデータ保持するクラス
+
+class RouteData{
+	//xmlのデータ.歩行ルートを保持するクラス
 	private List<LatLng> routeline=new ArrayList<LatLng>();
 	
 	String catecory;
@@ -93,16 +103,26 @@ class RouteData{//xmlのデータ保持するクラス
 	
 }
 
-class mapcontrol{
+class mapcontrol {
 	//mapのコントロールを担当する。
 	//マップ表示のフラグメントがリセットされても直前の状態を保持できるようにする。
+	//routedata.get(0)はGPS用
 	
 	private GoogleMap map;
 	private LatLng deflatlng=new LatLng(37.531603, 138.912883);
 	private float defZoom=15;
-	
 	static ArrayList<RouteData> routedata = new ArrayList<RouteData>();
 	static int initialize =0;
+	
+	//Activity context;
+	
+	/*public mapcontrol(Activity context){
+		this.context=context;
+	}*/
+	
+	public void addpoint(LatLng latlng){
+		routedata.get(0).addpoint(latlng);
+	}
 	
 	public void setMap(GoogleMap map) throws SAXException, IOException{
 		System.out.println("Debug:"+"setmap");
@@ -110,14 +130,13 @@ class mapcontrol{
 		if(initialize==0){
 			System.out.println("Debug:"+"initializde");
 			routedata.add(0,new RouteData());
-			
-			routedata.get(0).loadxml(Environment.getExternalStorageDirectory().getPath()+"/mitsuke2/test_data.xml");
-			
+			routedata.add(1,new RouteData());
+			routedata.get(1).loadxml(Environment.getExternalStorageDirectory().getPath()+"/mitsuke2/test_data.xml");
+			routedata.get(1).setColor(Color.RED);
 			initialize=1;
 		}
 	}
 	public void drawroute(int routeindex){
-		System.out.println("test test");
 		
 		map.addPolyline(new PolylineOptions()
 	    .addAll(routedata.get(routeindex).getroute())
@@ -134,20 +153,27 @@ class mapcontrol{
 					deflatlng, defZoom);
 		map.moveCamera(cu);
 		drawroute(0);
+		drawroute(1);
 	}
-	
 }
 
-public class Sub1Activity extends FragmentActivity{
+public class Sub1Activity extends FragmentActivity 
+	implements OnConnectionFailedListener, LocationListener, ConnectionCallbacks{
 	
 	public SimpleSideDrawer mSlidingMenu;
 	public static final String TAG = "TEST";
 	static GoogleMap map;
 	static int initialized =0;
-	static mapcontrol mapdate=new mapcontrol();
+	static mapcontrol mapdata=new mapcontrol();	
+	
+	private LocationClient mLocationClient = null;
+	private static final LocationRequest REQUEST = LocationRequest.create()
+	.setInterval(5000) // 5 seconds
+	.setFastestInterval(16) // 16ms = 60fps
+	.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		System.out.println("FRAGMENT PRINT POINT");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_sub1);
 					
@@ -176,26 +202,30 @@ public class Sub1Activity extends FragmentActivity{
 				.getMap();
 		MapsInitializer.initialize(this);
 		try {
-			mapdate.setMap(map);
+			mapdata.setMap(map);
 		} catch (SAXException e) {
 			AlertBox("ERROR","XMLファイルのパースに失敗");
 		} catch (IOException e) {
 			AlertBox("ERROR","ファイルが存在しない");
 		}
 		
-		mapdate.CameraUpdate();
-		
+		mapdata.CameraUpdate();
+
+		if (map != null) {
+			map.setMyLocationEnabled(true);
+		}
+		mLocationClient = new LocationClient(getApplicationContext(), this, this); // ConnectionCallbacks, OnConnectionFailedListener
+		if (mLocationClient != null) {
+			// Google Play Servicesに接続
+			mLocationClient.connect();
+		}
+
 	}
 	protected void onDestroy(){
-		mapdate.onDestroy();
+		mapdata.onDestroy();
 		super.onDestroy();
 	}
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		//getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
+	
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -226,5 +256,39 @@ public class Sub1Activity extends FragmentActivity{
         AlertDialog alertDialog = alertDialogBuilder.create();
         // アラートダイアログを表示します
         alertDialog.show();
+	}
+	@Override
+	public void onLocationChanged(Location location) {
+		// TODO Auto-generated method stub
+		// 現在地に移動
+		CameraPosition cameraPos = new CameraPosition.Builder()
+		.target(new LatLng(location.getLatitude(), location.getLongitude())).zoom(15.0f)
+		.bearing(0).build();
+		map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPos));
+		mapdata.addpoint(new LatLng(location.getLatitude(), location.getLongitude()));
+		mapdata.drawroute(0);
+	}
+
+
+	@Override
+	public void onConnected(Bundle connectionHint) {
+		// TODO Auto-generated method stub
+		mLocationClient.requestLocationUpdates(REQUEST,this); // LocationListener
+	}
+	@Override
+	public void onDisconnected() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void onConnectionFailed(ConnectionResult arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		//getMenuInflater().inflate(R.menu.main, menu);
+		return true;
 	}
 }
