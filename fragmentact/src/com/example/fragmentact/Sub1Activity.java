@@ -52,110 +52,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 
-class RouteData{
-	//xmlのデータ.歩行ルートを保持するクラス
-	private List<LatLng> routeline=new ArrayList<LatLng>();
-	
-	String catecory;
-	String timestamp;
-	String infomation;
-	
-	int color=Color.BLUE;
-	
-	public List<LatLng> getroute(){
-		return routeline;	
-	}
-	void setColor(int color){
-		this.color=color;
-	}
-	public int getColor(){
-		return color;
-		
-	}
-	public void addpoint(LatLng latlng){
-		routeline.add(latlng);
-	}
-	
-	public void loadxml(String filename) throws SAXException, IOException{
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		
-		DocumentBuilder documentBuilder = null;
-		try {
-			documentBuilder = factory.newDocumentBuilder();
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
-		}
-		File fp = new File(filename);
-		
-		Document document = documentBuilder.parse(fp);
-		//Element root = document.getDocumentElement();
-		for(int i=0;i<document.getElementsByTagName("pt").getLength();i++){
-			String ptstr=document.getElementsByTagName("pt").item(i).getTextContent();
-			String strsplit[]=ptstr.split(",");
-			System.out.println("debug"+ptstr);
-			addpoint(new LatLng(Double.parseDouble(strsplit[0]),Double.parseDouble(strsplit[1])));
-		}
-	}
-	public void writexml(){
-		
-	}
-	
-	
-}
 
-class mapcontrol {
-	//mapのコントロールを担当する。
-	//マップ表示のフラグメントがリセットされても直前の状態を保持できるようにする。
-	//routedata.get(0)はGPS用
-	
-	private GoogleMap map;
-	private LatLng deflatlng=new LatLng(37.531603, 138.912883);
-	private float defZoom=15;
-	static ArrayList<RouteData> routedata = new ArrayList<RouteData>();
-	static int initialize =0;
-	
-	//Activity context;
-	
-	/*public mapcontrol(Activity context){
-		this.context=context;
-	}*/
-	
-	public void addpoint(LatLng latlng){
-		routedata.get(0).addpoint(latlng);
-	}
-	
-	public void setMap(GoogleMap map) throws SAXException, IOException{
-		System.out.println("Debug:"+"setmap");
-		this.map = map;
-		if(initialize==0){
-			System.out.println("Debug:"+"initializde");
-			routedata.add(0,new RouteData());
-			routedata.add(1,new RouteData());
-			routedata.get(1).loadxml(Environment.getExternalStorageDirectory().getPath()+"/mitsuke2/test_data.xml");
-			routedata.get(1).setColor(Color.RED);
-			initialize=1;
-		}
-	}
-	public void drawroute(int routeindex){
-		
-		map.addPolyline(new PolylineOptions()
-	    .addAll(routedata.get(routeindex).getroute())
-	    .width(8)
-	    .color(routedata.get(routeindex).getColor()));
-	}
-	public void onDestroy(){
-		 deflatlng=map.getCameraPosition().target;
-		 defZoom = map.getCameraPosition().zoom;
-	}
-	public void CameraUpdate(){
-		CameraUpdate cu = 
-			CameraUpdateFactory.newLatLngZoom(
-					deflatlng, defZoom);
-		map.moveCamera(cu);
-		drawroute(0);
-		drawroute(1);
-	}
-}
 
 public class Sub1Activity extends FragmentActivity 
 	implements OnConnectionFailedListener, LocationListener, ConnectionCallbacks{
@@ -164,7 +61,7 @@ public class Sub1Activity extends FragmentActivity
 	public static final String TAG = "TEST";
 	static GoogleMap map;
 	static int initialized =0;
-	static mapcontrol mapdata=new mapcontrol();	
+	static MapControl mapdata=new MapControl();	
 	
 	private LocationClient mLocationClient = null;
 	private static final LocationRequest REQUEST = LocationRequest.create()
