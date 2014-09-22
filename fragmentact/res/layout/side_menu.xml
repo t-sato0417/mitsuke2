@@ -16,6 +16,6 @@
         <Button
             android:id="@+id/behind_btn"
             style="@style/behindMenuItemLabel"
-            android:text="ルートを保存" />
+            android:text="BUTTON" />
     </LinearLayout>
 </ScrollView>

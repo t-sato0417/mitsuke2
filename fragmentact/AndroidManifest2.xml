@@ -32,10 +32,12 @@
         <activity
             android:name=".Sub2Activity"
             android:label="title_activity_sub2" >
+            
         </activity>
         <activity
             android:name=".Sub1Activity"
             android:label="title_activity_sub1" >
+            
         </activity>
 
         <uses-library android:name="com.google.android.maps" />
@@ -49,7 +51,8 @@
 
         <activity
             android:name=".Sub3Activity"
-            android:label="@string/title_activity_sub3" >
+            android:label="title_activity_sub3" >
+            
         </activity>
     </application>
 

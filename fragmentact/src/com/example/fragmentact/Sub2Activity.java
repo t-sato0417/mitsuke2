@@ -24,11 +24,13 @@ public class Sub2Activity extends FragmentActivity {
 	        btn8.setOnClickListener(new View.OnClickListener() {
 	            @Override
 	            public void onClick(View v) {
-	                Intent intent = new Intent(Sub2Activity.this,
-	                    Sub3Activity.class );
-	                startActivity(intent);
+	                Intent intent2 = new Intent(Sub2Activity.this,
+	                		Sub3Activity.class );
+	                startActivity(intent2);
 	            }
 	        });
+	        
+	        /*
 	  
 	        // ArrayAdapter を作成  
 	        String items[] = {"カテゴリを選んでください","items1","items2"};
@@ -62,12 +64,12 @@ public class Sub2Activity extends FragmentActivity {
 	            public void onNothingSelected(AdapterView parent) {
 	            }});*/
 	    }
-	 @Override
+	/* @Override
 	    protected void onStart () {
 	    super.onStart();
 	    // 初期選択状態の設定
 	        ((Spinner)findViewById(R.id.Spinner01)).setSelection(0);
 	    }
-
+*/
 
 }

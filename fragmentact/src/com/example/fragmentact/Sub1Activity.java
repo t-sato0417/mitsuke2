@@ -51,6 +51,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
+
+
+
 public class Sub1Activity extends FragmentActivity 
 	implements OnConnectionFailedListener, LocationListener, ConnectionCallbacks{
 	
@@ -73,7 +76,6 @@ public class Sub1Activity extends FragmentActivity
 					
 		Button btn4 = (Button) findViewById(R.id.btn4);
         Button btn5 = (Button) findViewById(R.id.btn5);
-        //Button btnside1 = (Button) findViewById(R.id.behind_btn);
         
         btn4.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -88,33 +90,9 @@ public class Sub1Activity extends FragmentActivity
         btn5.setOnClickListener(new OnClickListener() {
             @Override 
             public void onClick(View v) {
-            	
             	mSlidingMenu.toggleLeftDrawer();
-            	Button btnside1 = (Button) findViewById(R.id.behind_btn);
-            	btnside1.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v) {
-                        System.out.println("Debug:click sidemenu Button");
-                        try {
-							try {
-								mapdata.writexml();
-							} catch (IOException e) {
-								AlertBox("ERROR","ファイルの保存に失敗しました");
-							}
-						} catch (ParserConfigurationException e) {
-							System.out.println("Debug:XML書き込みエラー");
-							e.printStackTrace();
-						}
-                    }
-                });
-            	
             }
         });
-        /*btnside1.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                System.out.println("Debug:click sidemenu Button");
-            }
-        });*/
-        
         
 		map = ((SupportMapFragment)
 				getSupportFragmentManager().findFragmentById(R.id.map))

@@ -3,8 +3,6 @@ package com.example.fragmentact;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.xml.sax.SAXException;
 
 import android.graphics.Color;
@@ -33,9 +31,7 @@ public class MapControl {
 	public void addpoint(LatLng latlng){
 		routedata.get(0).addpoint(latlng);
 	}
-	public void writexml() throws ParserConfigurationException, IOException{
-		routedata.get(0).writexml("example.xml");
-	}
+	
 	public void loadxml(String path) throws SAXException, IOException{
 		int i=1;
 		try{
@@ -61,7 +57,7 @@ public class MapControl {
 			System.out.println("Debug:"+"initializde");
 			routedata.add(0,new RouteData());
 			routedata.add(1,new RouteData());
-			routedata.get(1).loadxml("test_data.xml");
+			routedata.get(1).loadxml(Environment.getExternalStorageDirectory().getPath()+"/mitsuke2/test_data.xml");
 			routedata.get(1).setColor(Color.RED);
 			initialize=1;
 		}
