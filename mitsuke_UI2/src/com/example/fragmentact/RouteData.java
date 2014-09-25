@@ -2,14 +2,23 @@ package com.example.fragmentact;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Text;
 import org.xml.sax.SAXException;
 
 import android.graphics.Color;
@@ -61,8 +70,38 @@ public class RouteData{
 			addpoint(new LatLng(Double.parseDouble(strsplit[0]),Double.parseDouble(strsplit[1])));
 		}
 	}
-	public void writexml(){
-		
+	public void writexml() throws ParserConfigurationException{
+		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+	    DocumentBuilder db = dbf.newDocumentBuilder();
+	    Document document = db.newDocument();
+	    // <<<<< DOMオブジェクトの作成までのおきまりのコード
+	    Element root = document.createElement("route");//.createElement("test");
+	    document.appendChild(root);
+	    
+	    Element timestamp = document.createElement("timestamp");
+        root.appendChild(timestamp);
+        Text textContents = document.createTextNode("255525");
+        timestamp.appendChild(textContents);
+        
+        
+	    
+	    
+	    StringWriter sw = new StringWriter();
+	    TransformerFactory tfactory = TransformerFactory.newInstance(); 
+	    Transformer transformer = null;
+		try {
+			transformer = tfactory.newTransformer();
+		} catch (TransformerConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+	    try {
+			transformer.transform(new DOMSource(document), new StreamResult(sw));
+		} catch (TransformerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+	    System.out.println( sw.toString());
 	}
 	
 	

@@ -26,7 +26,7 @@ public class Sub2Activity extends FragmentActivity {
 	            public void onClick(View v) {
 	                Intent intent = new Intent(Sub2Activity.this,
 	                		Sub3Activity.class );
-	                intent.putExtra("String Value", "walk");
+	                intent.putExtra("CATEGORY", "local");
 	                startActivity(intent);
 	            }
 	        });
@@ -38,7 +38,7 @@ public class Sub2Activity extends FragmentActivity {
 	            public void onClick(View v) {
 	                Intent intent = new Intent(Sub2Activity.this,
 	                		Sub3Activity.class );
-	                intent.putExtra("String Value", "eat_out");
+	                intent.putExtra("CATEGORY", "walk");
 	                startActivity(intent);
 	            }
 	        });
@@ -50,7 +50,7 @@ public class Sub2Activity extends FragmentActivity {
 	            public void onClick(View v) {
 	                Intent intent = new Intent(Sub2Activity.this,
 	                		Sub3Activity.class );
-	                intent.putExtra("String Value", "walk");
+	                intent.putExtra("CATEGORY", "eat_out");
 	                startActivity(intent);
 	            }
 	        });
@@ -62,7 +62,7 @@ public class Sub2Activity extends FragmentActivity {
 	            public void onClick(View v) {
 	                Intent intent = new Intent(Sub2Activity.this,
 	                		Sub3Activity.class );
-	                intent.putExtra("String Value", "walk");
+	                intent.putExtra("CATEGORY", "walk");
 	                startActivity(intent);
 	            }
 	        });
@@ -74,7 +74,7 @@ public class Sub2Activity extends FragmentActivity {
 	            public void onClick(View v) {
 	                Intent intent = new Intent(Sub2Activity.this,
 	                		Sub3Activity.class );
-	                intent.putExtra("String Value", "walk");
+	                intent.putExtra("CATEGORY", "walk");
 	                startActivity(intent);
 	            }
 	        });

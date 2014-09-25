@@ -2,6 +2,8 @@ package com.example.fragmentact;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -14,6 +16,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
@@ -33,122 +37,113 @@ public class Sub3Activity extends FragmentActivity {
 	NamedNodeMap attributes ;
 	Element file;
 	Document document;
+
+
+
 	public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sub3);
-        
-			try {
-				initButton();
-			} catch (SAXException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (ParserConfigurationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-    }
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_sub3);
+		System.out.println("Debug:ActivitySub3");
+		try {
+			initButton();
+		} catch (SAXException e) {
+			AlertBox("ERROR","XMLファイルがおかしい");
+		} catch (IOException e) {
+			AlertBox("ERROR","XMLファイルがみつかりません");
+		} catch (ParserConfigurationException e) {
+			AlertBox("ERROR","XMLファイルがおかしい");
+		}
+	}
 
-		public void initButton() throws SAXException, IOException,
-		ParserConfigurationException {
-	        Intent intent = getIntent();
-	        //Sub2Activityから値を受け取る
-	        CharSequence getstring = intent.getCharSequenceExtra("String Value");
-
-			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder documentBuilder = factory.newDocumentBuilder();
-			File fp = new File(Environment.getExternalStorageDirectory().getPath()+"/mitsuke2/manage_test.xml");
-			document = documentBuilder.parse(fp);
+	public void localfilebutton() throws SAXException, IOException,
+	ParserConfigurationException {
 		
-			Element root = document.getDocumentElement();
-			
-			NodeList infotags = root.getElementsByTagName("info");
-			
-			file = document.getDocumentElement();
 
-			
-			int max =infotags.getLength();
-			Button button[] = new Button[max];
-			LinearLayout lla = new LinearLayout(this);
-			lla.setOrientation(LinearLayout.VERTICAL);
-	        setContentView(lla);
-	        
-	        /*System.out.println("Debug:walk="
-	        +document.getElementsByTagName("walk").item(0).);
-	        */
-	        
-	        /*
-			for(array=0;array<max;array++) {			
-			    button[array] = new Button(this);
-			    Node category = root.getFirstChild();
-				while (category != null) {
-		            if (!category.getNodeName().equals(getstring)) {
-		            	category = category.getNextSibling();
-		                continue;
-		            }
-		            Node fileNode = category.getFirstChild();
-		            while (fileNode != null) {
-		                if (!fileNode.getNodeName().equals("file")) {
-		                    fileNode = fileNode.getNextSibling();
-		                    continue;
-		                }
-		                Node nameNode = fileNode.getFirstChild();
-		                while (nameNode != null) {
-		                	if (!nameNode.getNodeName().equals("info")) {
-		                		nameNode = nameNode.getNextSibling();
-		                		continue;
-		                	}
-		                	Node node = nameNode.getFirstChild();
-		                	if (node != null) {
-		                		button[array].setText(node.getNodeValue());
-		                	}
-		                	break;
-		                }
-		                fileNode = fileNode.getNextSibling();
-		            }
-		            category = category.getNextSibling();    
-		        }
-			    button[array].setText(infotags.item(array).getFirstChild().getNodeValue());
-			    //button[array].setHeight(30);
-			    //button[array].setWidth(30);
-			    //connector = file.getElementsByTagName("file").item(array);
-				//attributes = connector.getAttributes();
-										    
-			    button[array].setOnClickListener(new OnClickListener() {
-			    		int number=array;
-			            public void onClick(View view){			            	
-			            	getFile(number);			            	
-			            }
-			    });
-			    lla.addView(button[array], new LinearLayout.LayoutParams(wc, wc));  
-			}*/
+	}
+	public void initButton() throws SAXException, IOException,
+	ParserConfigurationException {
+
+		System.out.println("Debug:initBUtton");
+		Intent intent = getIntent();
+
+
+
+		//Sub2Activityから値を受け取る
+		//CharSequence getstring = intent.getCharSequenceExtra("CATEGORY");
+		String category=intent.getStringExtra("CATEGORY");
+		if(category.equalsIgnoreCase("local")){
+			localfilebutton();
 		}
-		void getFile(int number){
-			Intent intent = new Intent(Sub3Activity.this,
-					Sub1Activity.class );
-			if(file!=null){
-				System.out.println("Debug:"+
-						document.getElementsByTagName("file").item(number).getAttributes().getNamedItem("fname").getNodeValue());
-				intent.putExtra("FILENAME",
-						document.getElementsByTagName("file").item(number)
-						.getAttributes().getNamedItem("fname").getNodeValue());
-				startActivity(intent);
-				//System.out.println("Debug:"+file.getTextContent());
-				/*NodeList fileelement = file.getElementsByTagName("file");
-				
-				System.out.println("Debug:fileemelen="+fileelement.getLength());
-				if(fileelement.getLength()!=0){
-				connector = fileelement.item(array);
-				attributes = connector.getAttributes();
-				intent.putExtra("String Value",attributes.item(0).getNodeValue() );
-				System.out.println(attributes.item(0).getNodeValue());
-				//Intent intent = getIntent();
-				//CharSequence getmapString = intent.getCharSequenceExtra("String Value");
-				startActivity(intent);
-				}*/
-				
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder documentBuilder = factory.newDocumentBuilder();
+		File fp = new File(Environment.getExternalStorageDirectory().getPath()+"/mitsuke2/manage_test.xml");
+		document = documentBuilder.parse(fp);
+
+		Element root = document.getDocumentElement();			
+		file = document.getDocumentElement();
+
+		//int max =infotags.getLength();
+		//List<Button> button = new ArrayList<Button>();
+		LinearLayout lla = new LinearLayout(this);
+		lla.setOrientation(LinearLayout.VERTICAL);
+		setContentView(lla);
+
+		Node eat_out =document.getElementsByTagName(category).item(0);
+		for(array=0;array<document.getElementsByTagName("file").getLength();array++){
+			/*System.out.println("Debug:file:"+
+	        			document.getElementsByTagName("file").item(array).getNodeValue());*/
+			if(document.getElementsByTagName("file").item(array).getParentNode()==eat_out){
+				//System.out.println(document.getElementsByTagName("file").item(array).getAttributes().getNamedItem("info").getTextContent());
+				Button insertbutton =new Button(this);
+				insertbutton.setText(document.getElementsByTagName("file").item(array).getAttributes().getNamedItem("info").getNodeValue());
+
+				insertbutton.setOnClickListener(new OnClickListener() {
+					int number=array;
+					String filename=document.getElementsByTagName("file").item(array).getAttributes().getNamedItem("fname").getNodeValue();
+
+					public void onClick(View view){			            	
+						System.out.println("Debug:filename:"+filename);		
+						Intent intent = new Intent(Sub3Activity.this,
+								Sub1Activity.class );
+						intent.putExtra("FILENAME", filename);
+						startActivity(intent);
+					}
+				});
+				lla.addView(insertbutton, new LinearLayout.LayoutParams(wc, wc));
 			}
 		}
+
+
+
+	}
+	void getFile(int number){
+		Intent intent = new Intent(Sub3Activity.this,
+				Sub1Activity.class );
+		if(file!=null){
+			System.out.println("Debug:"+
+					document.getElementsByTagName("file").item(number).getAttributes().getNamedItem("fname").getNodeValue());
+			intent.putExtra("FILENAME",
+					document.getElementsByTagName("file").item(number)
+					.getAttributes().getNamedItem("fname").getNodeValue());
+			startActivity(intent);
+
+		}
+	}
+	public void AlertBox(String title,String Message){
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+		// アラートダイアログのタイトルを設定します
+		alertDialogBuilder.setTitle(title);
+		// アラートダイアログのメッセージを設定します
+		alertDialogBuilder.setMessage(Message);
+		// アラートダイアログの肯定ボタンがクリックされた時に呼び出されるコールバックリスナーを登録します
+		alertDialogBuilder.setPositiveButton("OK",
+				new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+			}
+		});
+		AlertDialog alertDialog = alertDialogBuilder.create();
+		// アラートダイアログを表示します
+		alertDialog.show();
+	}
 }

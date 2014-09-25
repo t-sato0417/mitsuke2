@@ -26,28 +26,31 @@
         android:text="@string/SpinnerPrompt" />
 
 <Button
-        android:id="@+id/category1"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView1"
-        android:layout_marginBottom="20dp"
-        android:text="@string/watch" />
+    android:id="@+id/category1"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/textView1"
+    android:layout_marginBottom="20dp"
+    android:text="保存したルートファイル" />
+
 <Button
-        android:id="@+id/category2"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/category1"
-        android:layout_alignLeft="@+id/category1"
-        android:layout_marginBottom="20dp"
-        android:text="@string/watch" />
+    android:id="@+id/category2"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignLeft="@+id/category1"
+    android:layout_below="@+id/category1"
+    android:layout_marginBottom="20dp"
+    android:text="ウォーキングコース" />
+
 <Button
-        android:id="@+id/category3"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/category2"
-        android:layout_alignLeft="@+id/category1"
-        android:layout_marginBottom="20dp"
-        android:text="@string/watch" />
+    android:id="@+id/category3"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignLeft="@+id/category1"
+    android:layout_below="@+id/category2"
+    android:layout_marginBottom="20dp"
+    android:text="食べ歩きコース" />
+
 <Button
         android:id="@+id/category4"
         android:layout_width="fill_parent"

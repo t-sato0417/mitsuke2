@@ -6,11 +6,13 @@ import java.util.ArrayList;
 import org.xml.sax.SAXException;
 
 import android.graphics.Color;
+import android.location.Location;
 import android.os.Environment;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PolylineOptions;
 
@@ -23,6 +25,7 @@ public class MapControl {
 	private GoogleMap map;//
 	private LatLng deflatlng=new LatLng(37.531603, 138.912883);
 	private float defZoom=15;
+	private boolean onGPS=false;
 	
 	static ArrayList<RouteData> routedata = new ArrayList<RouteData>();//ルート(ラインデータ)の保持
 	
@@ -31,7 +34,18 @@ public class MapControl {
 	public void addpoint(LatLng latlng){
 		routedata.get(0).addpoint(latlng);
 	}
-	
+	public void setGPS(boolean on){
+		onGPS=on;
+	}
+	public void changeGPS(Location location){
+		if(onGPS){
+			CameraPosition cameraPos = new CameraPosition.Builder()
+			.target(new LatLng(location.getLatitude(), location.getLongitude())).zoom(15.0f)
+			.bearing(0).build();
+			map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPos));
+			addpoint(new LatLng(location.getLatitude(), location.getLongitude()));
+		}
+	}
 	public void loadxml(String path) throws SAXException, IOException{
 		int i=1;
 		try{
@@ -56,9 +70,9 @@ public class MapControl {
 		if(initialize==0){
 			System.out.println("Debug:"+"initializde");
 			routedata.add(0,new RouteData());
-			routedata.add(1,new RouteData());
-			routedata.get(1).loadxml(Environment.getExternalStorageDirectory().getPath()+"/mitsuke2/test_data.xml");
-			routedata.get(1).setColor(Color.RED);
+			//routedata.add(1,new RouteData());
+			//routedata.get(1).loadxml(GeneralValue.savefolder+"/test_data.xml");
+			//routedata.get(1).setColor(Color.RED);
 			initialize=1;
 		}
 	}
@@ -69,6 +83,12 @@ public class MapControl {
 	    .width(8)
 	    .color(routedata.get(routeindex).getColor()));
 	}
+	public void drawrouteall(){
+		for(int i=0;i<routedata.size();i++){
+			drawroute(i);
+			
+		}
+	}
 	public void onDestroy(){
 		 deflatlng=map.getCameraPosition().target;
 		 defZoom = map.getCameraPosition().zoom;
@@ -78,7 +98,7 @@ public class MapControl {
 			CameraUpdateFactory.newLatLngZoom(
 					deflatlng, defZoom);
 		map.moveCamera(cu);
-		drawroute(0);
-		drawroute(1);
+		//drawroute(0);
+		//drawroute(1);
 	}
 }

@@ -73,6 +73,10 @@ public class Sub1Activity extends FragmentActivity
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_sub1);
+		
+		Intent parentIntent = getIntent();
+		String loadfilename=parentIntent.getStringExtra("FILENAME");
+		
 					
 		Button btn4 = (Button) findViewById(R.id.btn4);
         Button btn5 = (Button) findViewById(R.id.btn5);
@@ -100,6 +104,7 @@ public class Sub1Activity extends FragmentActivity
 		MapsInitializer.initialize(this);
 		try {
 			mapdata.setMap(map);
+			if(loadfilename!=null)mapdata.loadxml(loadfilename);
 		} catch (SAXException e) {
 			AlertBox("ERROR","XMLファイルのパースに失敗");
 		} catch (IOException e) {
@@ -158,12 +163,8 @@ public class Sub1Activity extends FragmentActivity
 	public void onLocationChanged(Location location) {
 		// TODO Auto-generated method stub
 		// 現在地に移動
-		CameraPosition cameraPos = new CameraPosition.Builder()
-		.target(new LatLng(location.getLatitude(), location.getLongitude())).zoom(15.0f)
-		.bearing(0).build();
-		map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPos));
-		mapdata.addpoint(new LatLng(location.getLatitude(), location.getLongitude()));
-		mapdata.drawroute(0);
+		
+		mapdata.changeGPS(location);
 	}
 
 

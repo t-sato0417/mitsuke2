@@ -63,6 +63,8 @@ public class Sub1Activity extends FragmentActivity
 	static int initialized =0;
 	static MapControl mapdata=new MapControl();	
 	
+	Intent calledintent;//åƒÇ—èoÇµå≥ÇÃintentÇë„ì¸Ç∑ÇÈ
+	
 	private LocationClient mLocationClient = null;
 	private static final LocationRequest REQUEST = LocationRequest.create()
 	.setInterval(5000) // 5 seconds
@@ -76,6 +78,9 @@ public class Sub1Activity extends FragmentActivity
 					
 		Button btn4 = (Button) findViewById(R.id.btn4);
         Button btn5 = (Button) findViewById(R.id.btn5);
+        
+        calledintent = getIntent();
+        String keyword = calledintent.getStringExtra(ÅgDÅh);
         
         btn4.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

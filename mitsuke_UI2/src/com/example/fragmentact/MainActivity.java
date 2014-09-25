@@ -2,8 +2,11 @@ package com.example.fragmentact;
 
 //import com.example.androidmapview.Sub1Activity;
 
+import java.io.File;
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.FragmentActivity;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -17,9 +20,15 @@ public class MainActivity extends FragmentActivity{
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // res/layout/screen1.xml を初期画面に
         setContentView(R.layout.activity_main);
         
+        //フォルダを作成
+        File approot=new File(GeneralValue.approot);
+        approot.mkdir();
+        File xmlfolder = new File(GeneralValue.savefolder);
+        xmlfolder.mkdir();
+        File cachefolder = new File(GeneralValue.cachefolder);
+        cachefolder.mkdir();
         
  
         Button btn2 = (Button) findViewById(R.id.btn2);
@@ -63,7 +72,7 @@ public class MainActivity extends FragmentActivity{
 	}
 	@Override
 	public boolean dispatchKeyEvent(KeyEvent e) {
-		System.out.println("clicked");
+		//System.out.println("clicked");
 	   // DOWNとUPが取得できるのでログの2重表示防止のためif
 	   if (e.getKeyCode() == KeyEvent.KEYCODE_MENU) {
 	       //キーコード表示
