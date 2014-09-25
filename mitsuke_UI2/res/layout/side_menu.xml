@@ -1,21 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/leftBehindMenuScroll" >
+    style="@style/leftBehindMenuScroll"
+    android:layout_width="150dp"
+    android:background="#333333" >
 
-    <LinearLayout style="@style/behindMenuScrollContent"
+    <LinearLayout
+        style="@style/behindMenuScrollContent"
         android:paddingTop="25dp" >
+
         <TextView
             style="@style/behindMenuItemTitle"
-            android:text="Left" />
+            android:text="ルート保存" />
+
         <TextView
             style="@style/behindMenuItemLabel"
-            android:text="Item0" />
-        <TextView
-            style="@style/behindMenuItemLabel"
-            android:text="Item1" />
+            android:text="ルートの説明文を入力してください" />
+
+        <EditText
+            android:id="@+id/editText1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10" />
+
         <Button
             android:id="@+id/behind_btn"
             style="@style/behindMenuItemLabel"
-            android:text="BUTTON" />
+            android:layout_weight="1"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:text="保存" >
+
+            <requestFocus />
+        </Button>
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="始点"
+            android:textColor="#FFFFFF" />
+
+        <SeekBar
+            android:id="@+id/seekBar1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="終点"
+            android:textColor="#FFFFFF" />
+
+        <SeekBar
+            android:id="@+id/seekBar2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:scrollbarAlwaysDrawVerticalTrack="true" />
+
     </LinearLayout>
 </ScrollView>

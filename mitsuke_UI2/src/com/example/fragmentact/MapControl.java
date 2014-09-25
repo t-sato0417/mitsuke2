@@ -3,10 +3,14 @@ package com.example.fragmentact;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.xml.sax.SAXException;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Environment;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -36,6 +40,7 @@ public class MapControl {
 	}
 	public void setGPS(boolean on){
 		onGPS=on;
+		
 	}
 	public void changeGPS(Location location){
 		if(onGPS){
@@ -43,8 +48,9 @@ public class MapControl {
 			.target(new LatLng(location.getLatitude(), location.getLongitude())).zoom(15.0f)
 			.bearing(0).build();
 			map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPos));
-			addpoint(new LatLng(location.getLatitude(), location.getLongitude()));
+			
 		}
+		addpoint(new LatLng(location.getLatitude(), location.getLongitude()));
 	}
 	public void loadxml(String path) throws SAXException, IOException{
 		int i=1;
@@ -63,7 +69,9 @@ public class MapControl {
 			routedata.get(1).setColor(Color.RED);
 		}
 	}
-
+	void writeroute(String info) throws ParserConfigurationException, IOException{
+		routedata.get(0).writexml(info);
+	}
 	public void setMap(GoogleMap map) throws SAXException, IOException{
 		System.out.println("Debug:"+"setmap");
 		this.map = map;

@@ -41,15 +41,18 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.FragmentActivity;
+import android.text.SpannableStringBuilder;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 
 
 
@@ -86,7 +89,7 @@ public class Sub1Activity extends FragmentActivity
                 Intent intent = new Intent(Sub1Activity.this, 
                     MainActivity.class );
                 startActivity(intent);
-                finish(); // アクティビティ終了
+                //finish(); // アクティビティ終了
             }
         });
         mSlidingMenu = new SimpleSideDrawer(this);
@@ -94,7 +97,25 @@ public class Sub1Activity extends FragmentActivity
         btn5.setOnClickListener(new OnClickListener() {
             @Override 
             public void onClick(View v) {
+            	mapdata.setGPS(true);
+            	mapdata.changeGPS(mLocationClient.getLastLocation());
             	mSlidingMenu.toggleLeftDrawer();
+            	mapdata.setGPS(false);
+            	Button bihindbutton = (Button) findViewById(R.id.behind_btn);
+            	bihindbutton.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                    	EditText infotext = (EditText)findViewById(R.id.editText1);
+                    	
+                        try {
+                        	SpannableStringBuilder sb = (SpannableStringBuilder)infotext.getText();
+							mapdata.writeroute(sb.toString());
+						} catch (ParserConfigurationException e) {
+							e.printStackTrace();
+						} catch (IOException e) {
+							AlertBox("ERROR","ファイルの書き込みに失敗");
+						}
+                    }
+                });
             }
         });
         
@@ -121,7 +142,8 @@ public class Sub1Activity extends FragmentActivity
 			// Google Play Servicesに接続
 			mLocationClient.connect();
 		}
-
+		
+		//Location myLocate = mLocationClient.getLastLocation();
 	}
 	protected void onDestroy(){
 		mapdata.onDestroy();
@@ -132,15 +154,6 @@ public class Sub1Activity extends FragmentActivity
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		return false;
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		/*int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-		return true;*/
 	}
 	public void AlertBox(String title,String Message){
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);

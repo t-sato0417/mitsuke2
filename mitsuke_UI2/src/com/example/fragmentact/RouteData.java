@@ -1,9 +1,15 @@
 package com.example.fragmentact;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -70,7 +76,10 @@ public class RouteData{
 			addpoint(new LatLng(Double.parseDouble(strsplit[0]),Double.parseDouble(strsplit[1])));
 		}
 	}
-	public void writexml() throws ParserConfigurationException{
+	public String getTimestamp(){//–¢ŽÀ‘•
+		return "255525";
+	}
+	public void writexml(String info) throws ParserConfigurationException, IOException{
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 	    DocumentBuilder db = dbf.newDocumentBuilder();
 	    Document document = db.newDocument();
@@ -80,12 +89,31 @@ public class RouteData{
 	    
 	    Element timestamp = document.createElement("timestamp");
         root.appendChild(timestamp);
-        Text textContents = document.createTextNode("255525");
+        Text textContents = document.createTextNode(getTimestamp());
         timestamp.appendChild(textContents);
         
+        Element infomation = document.createElement("infomation");
+        if(info.length()==0){
+        	System.out.println("Debug:info:"+info);
+        	textContents = document.createTextNode(getTimestamp());
+        }else{
+        	System.out.println("Debug:infomation‚È‚µ");
+        	textContents = document.createTextNode(info);
+        }
+        infomation.appendChild(textContents);
+        root.appendChild(infomation); 
         
-	    
-	    
+        Element latlng = document.createElement("LatLng");    	
+               
+        for(int i=0;i<routeline.size();i++){
+        	Element pt = document.createElement("pt");
+        	
+        	textContents = document.createTextNode(routeline.get(i).latitude+","+routeline.get(i).longitude);
+        	pt.appendChild(textContents);
+        	latlng.appendChild(pt);
+        }
+        root.appendChild(latlng);
+        
 	    StringWriter sw = new StringWriter();
 	    TransformerFactory tfactory = TransformerFactory.newInstance(); 
 	    Transformer transformer = null;
@@ -94,7 +122,7 @@ public class RouteData{
 		} catch (TransformerConfigurationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} 
+		}
 	    try {
 			transformer.transform(new DOMSource(document), new StreamResult(sw));
 		} catch (TransformerException e) {
@@ -102,6 +130,39 @@ public class RouteData{
 			e.printStackTrace();
 		} 
 	    System.out.println( sw.toString());
+	    
+	    String fname=randmd5();
+
+	    System.out.println("Debug:savexmlfile:"+GeneralValue.savefolder+"/"+fname+".xml");
+		FileWriter fw=new FileWriter(GeneralValue.savefolder+"/"+fname+".xml");
+		fw.write(sw.toString());	    
+	}
+	public String randmd5(){
+		double hashseed=Math.random();
+		MessageDigest md=null;
+		try {
+			md = MessageDigest.getInstance("MD5");
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		byte[] dat = (""+hashseed).getBytes();;
+		md.update(dat);
+		String fname="";
+		String strdigest="";
+
+		byte []digest = md.digest();
+		for (int i = 0; i < digest.length; i++) {
+			int d = digest[i];
+			if (d < 0) {//byteŒ^‚Å‚Í128`255‚ª•‰’l‚É‚È‚Á‚Ä‚¢‚é‚Ì‚Å•â³
+				d += 256;
+			}
+			if (d < 16) {//0`15‚Í16i”‚Å1‚¯‚½‚É‚È‚é‚Ì‚ÅA2‚¯‚½‚É‚È‚é‚æ‚¤“ª‚É0‚ð’Ç‰Á
+				System.out.print("0");
+			}
+			strdigest+=Integer.toString(d, 16);
+		}
+		return strdigest;
 	}
 	
 	
