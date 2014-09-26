@@ -72,9 +72,35 @@ public class Sub3Activity extends FragmentActivity {
 		File folder = new File(GeneralValue.savefolder);
 		String filelist[] =folder.list();
 		System.out.println("Debug:filelist:"+filelist[0]);
+		
+		
 		for(int i=0;i<filelist.length;i++){
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder documentBuilder = null;
+			String info=null;
+			try {
+				documentBuilder = factory.newDocumentBuilder();
+			} catch (ParserConfigurationException e) {
+				info =filelist[i];
+			}
+			File fp = new File(GeneralValue.savefolder+"/"+filelist[i]);
+			
+			try {
+				document = documentBuilder.parse(fp);
+			} catch (SAXException e) {
+				info =filelist[i];
+			} catch (IOException e) {
+				info =filelist[i];
+			}
+			Element root = document.getDocumentElement();			
+			file = document.getDocumentElement();
+			try{
+			info = document.getElementsByTagName("infomation").item(0).getTextContent();
+			}catch(Exception e){
+				info =filelist[i];
+			}
 			Button insertbutton =new Button(this);
-			insertbutton.setText(filelist[i]);
+			insertbutton.setText(info);
 			final String fname=filelist[i];
 			insertbutton.setOnClickListener(new OnClickListener() {
 				int number=array;
@@ -107,7 +133,7 @@ public class Sub3Activity extends FragmentActivity {
 		//subtitle.setText("カテゴリーのファイル");
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder documentBuilder = factory.newDocumentBuilder();
-		File fp = new File(Environment.getExternalStorageDirectory().getPath()+"/mitsuke2/manage.xml");
+		File fp = new File(GeneralValue.approot+"/mitsuke2/manage.xml");
 		
 		//System.out.println("Debug:manage.xmlが存在しない");
 		Sftp sftp = new Sftp();
@@ -197,8 +223,8 @@ public class Sub3Activity extends FragmentActivity {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				System.out.println("Debug:Deletefile:"+GeneralValue.approot+"/"+loadfile);
-				File fp = new File(GeneralValue.approot+"/"+loadfile);
-				fp.delete();
+				deleteFile(GeneralValue.approot+"/"+loadfile);
+				localfilebutton();
 				//fp.close();
 			}
 		});
