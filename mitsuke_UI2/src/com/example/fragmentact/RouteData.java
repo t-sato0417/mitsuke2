@@ -29,7 +29,9 @@ import org.xml.sax.SAXException;
 
 import android.graphics.Color;
 
+import com.example.sshconnect.Sftp;
 import com.google.android.gms.maps.model.LatLng;
+
 
 
 public class RouteData{
@@ -56,7 +58,7 @@ public class RouteData{
 		routeline.add(latlng);
 	}
 	
-	public void loadxml(String filename) throws SAXException, IOException{
+	public void loadxml(String filename,boolean online) throws SAXException, IOException{
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		
 		DocumentBuilder documentBuilder = null;
@@ -65,8 +67,24 @@ public class RouteData{
 		} catch (ParserConfigurationException e) {
 			e.printStackTrace();
 		}
-		File fp = new File(filename);
-		
+		File fp=null;
+		if(online){
+			fp = new File(GeneralValue.cachefolder+filename);
+			if(!fp.exists()){//キャッシュファイルに存在しない。
+				//オンラインから取得
+				Sftp sftp =new Sftp();
+				sftp.setSetting(GeneralValue.onlinedir+"/"+online,
+						GeneralValue.cachefolder+"/"+filename,true);
+				sftp.start();
+				if(!fp.exists()){
+					throw new IOException("ONLINE");
+				}
+				
+			}
+		}else{
+			fp = new File(GeneralValue.savefolder+filename);
+		}
+
 		Document document = documentBuilder.parse(fp);
 		//Element root = document.getDocumentElement();
 		for(int i=0;i<document.getElementsByTagName("pt").getLength();i++){
@@ -76,9 +94,15 @@ public class RouteData{
 			addpoint(new LatLng(Double.parseDouble(strsplit[0]),Double.parseDouble(strsplit[1])));
 		}
 	}
-	public String getTimestamp(){//未実装
-		return "255525";
+	public String getTimestamp(){
+		Calendar now = Calendar.getInstance();
+		//2014-09-17 17:26:30
+		return String.format("%d-%02d-%02d %02d:%02d:%02d",
+				now.get(Calendar.YEAR),now.get(Calendar.MONTH),now.get(Calendar.DATE),
+				now.get(Calendar.HOUR_OF_DAY),now.get(Calendar.MINUTE),now.get(Calendar.SECOND)
+				);
 	}
+	
 	public void writexml(String info) throws ParserConfigurationException, IOException{
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 	    DocumentBuilder db = dbf.newDocumentBuilder();
@@ -95,7 +119,7 @@ public class RouteData{
         Element infomation = document.createElement("infomation");
         if(info.length()==0){
         	System.out.println("Debug:info:"+info);
-        	textContents = document.createTextNode(getTimestamp());
+        	textContents = document.createTextNode(getTimestamp()+"に作成されました");
         }else{
         	System.out.println("Debug:infomationなし");
         	textContents = document.createTextNode(info);

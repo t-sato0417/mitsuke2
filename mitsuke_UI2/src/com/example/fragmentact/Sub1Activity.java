@@ -53,6 +53,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 
 
@@ -79,7 +80,7 @@ public class Sub1Activity extends FragmentActivity
 		
 		Intent parentIntent = getIntent();
 		String loadfilename=parentIntent.getStringExtra("FILENAME");
-		
+		boolean iflocalfile = parentIntent.getBooleanExtra("LOCAL",false);
 					
 		Button btn4 = (Button) findViewById(R.id.btn4);
         Button btn5 = (Button) findViewById(R.id.btn5);
@@ -108,7 +109,7 @@ public class Sub1Activity extends FragmentActivity
                     	
                         try {
                         	SpannableStringBuilder sb = (SpannableStringBuilder)infotext.getText();
-							mapdata.writeroute(sb.toString());
+							mapdata.writexml(sb.toString());
 						} catch (ParserConfigurationException e) {
 							e.printStackTrace();
 						} catch (IOException e) {
@@ -125,7 +126,7 @@ public class Sub1Activity extends FragmentActivity
 		MapsInitializer.initialize(this);
 		try {
 			mapdata.setMap(map);
-			if(loadfilename!=null)mapdata.loadxml(loadfilename);
+			if(loadfilename!=null)mapdata.loadxml(loadfilename,!iflocalfile);
 		} catch (SAXException e) {
 			AlertBox("ERROR","XMLファイルのパースに失敗");
 		} catch (IOException e) {

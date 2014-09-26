@@ -36,8 +36,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/btn3"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="33dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="32dp"
         android:text="地図作成" />
 
 </RelativeLayout>

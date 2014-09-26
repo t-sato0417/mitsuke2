@@ -52,24 +52,23 @@ public class MapControl {
 		}
 		addpoint(new LatLng(location.getLatitude(), location.getLongitude()));
 	}
-	public void loadxml(String path) throws SAXException, IOException{
+	
+	public void loadxml(String filename,boolean online) throws SAXException, IOException{
 		int i=1;
 		try{
 			for(i=0;i<10;i++){
-
 				routedata.get(i);
-
 			}
 		}catch(IndexOutOfBoundsException e){
 			if(i==0){
 				System.out.println("Debug:GPS用のルートデータが無い");
 			}
 			routedata.add(i,new RouteData());
-			routedata.get(i).loadxml(path);
+			routedata.get(i).loadxml(filename,online);
 			routedata.get(1).setColor(Color.RED);
 		}
 	}
-	void writeroute(String info) throws ParserConfigurationException, IOException{
+	void writexml(String info) throws ParserConfigurationException, IOException{
 		routedata.get(0).writexml(info);
 	}
 	public void setMap(GoogleMap map) throws SAXException, IOException{
@@ -78,9 +77,7 @@ public class MapControl {
 		if(initialize==0){
 			System.out.println("Debug:"+"initializde");
 			routedata.add(0,new RouteData());
-			//routedata.add(1,new RouteData());
-			//routedata.get(1).loadxml(GeneralValue.savefolder+"/test_data.xml");
-			//routedata.get(1).setColor(Color.RED);
+			
 			initialize=1;
 		}
 	}

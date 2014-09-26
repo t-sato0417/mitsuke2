@@ -6,8 +6,8 @@
 	<classpathentry exported="true" kind="lib" path="libs/android-support-v4.jar"/>
 	<classpathentry exported="true" kind="lib" path="libs/simple-side-drawer2.jar"/>
 	<classpathentry exported="true" kind="lib" path="/google-play-services_lib/libs/google-play-services.jar"/>
+	<classpathentry exported="true" kind="lib" path="jsch-0.1.51/jsch-0.1.51.jar"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
-	<classpathentry exported="true" kind="lib" path="jsch-0.1.51/jsch-0.1.51.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
