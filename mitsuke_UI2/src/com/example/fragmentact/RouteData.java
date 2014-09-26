@@ -59,7 +59,7 @@ public class RouteData{
 			double latdiff=Math.abs(latlng.latitude-routeline.get(routeline.size()-1).latitude );
 			double londiff=Math.abs(latlng.longitude-routeline.get(routeline.size()-1).longitude);
 			if(routeline.size()>0){
-				if(	!(latdiff<0.000000000000000000001&&londiff<0.000000000000000000001)	)
+				if(	!(latdiff<0.000001&&londiff<0.0000001)	)
 				{
 					routeline.add(latlng);
 				}

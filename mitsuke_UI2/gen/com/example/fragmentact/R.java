@@ -427,8 +427,8 @@ containing a value of this type.
         public static final int category3=0x7f07001e;
         public static final int category4=0x7f07001f;
         public static final int category5=0x7f070020;
-        public static final int category6=0x7f070021;
-        public static final int category7=0x7f070022;
+        public static final int category6=0x7f070022;
+        public static final int category7=0x7f070021;
         public static final int classic=0x7f070011;
         public static final int editText1=0x7f070025;
         public static final int grayscale=0x7f070012;

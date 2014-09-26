@@ -64,69 +64,99 @@ import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import com.google.android.gms.maps.GoogleMap.OnMapLoadedCallback;
 
 
 
 public class Sub1Activity extends FragmentActivity 
-	implements OnConnectionFailedListener, LocationListener, ConnectionCallbacks{
-	
+implements OnConnectionFailedListener, LocationListener, ConnectionCallbacks,OnMapLoadedCallback{
+
 	public SimpleSideDrawer mSlidingMenu;
 	public static final String TAG = "TEST";
 	static GoogleMap map;
 	static int initialized =0;
 	static MapControl mapdata=new MapControl();
-	
+
 	static final String APIKEY = "4874496b63633061385766326e2e487a4e456f665a31636131647157632e4d7a386e6838786f77715a4c30";
-	
+
 	TextView tempview;
-	
+
 	private LocationClient mLocationClient = null;
 	private static final LocationRequest REQUEST = LocationRequest.create()
-	.setInterval(5000) // 5 seconds
-	.setFastestInterval(16) // 16ms = 60fps
-	.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-	
+			.setInterval(5000) // 5 seconds
+			.setFastestInterval(16) // 16ms = 60fps
+			.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_sub1);
-		
+
+		map = ((SupportMapFragment)
+				getSupportFragmentManager().findFragmentById(R.id.map))
+				.getMap();
+		MapsInitializer.initialize(this);
+
 		tempview = (TextView)findViewById(R.id.tempview);
-		
+
 		Intent parentIntent = getIntent();
 		String loadfilename=parentIntent.getStringExtra("FILENAME");
 		boolean iflocalfile = parentIntent.getBooleanExtra("LOCALFILE",false);
-		
+
 		Button btn4 = (Button) findViewById(R.id.btn4);
-        Button btn5 = (Button) findViewById(R.id.btn5);
-        
-        btn4.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(Sub1Activity.this, 
-                    MainActivity.class );
-                startActivity(intent);
-                //finish(); // アクティビティ終了
-            }
-        });
-        mSlidingMenu = new SimpleSideDrawer(this);
-        mSlidingMenu.setLeftBehindContentView(R.layout.side_menu);
-        btn5.setOnClickListener(new OnClickListener() {
-            @Override 
-            public void onClick(View v) {
-            	mapdata.setGPS(true);
-            	mapdata.changeGPS(mLocationClient.getLastLocation());
-            	mSlidingMenu.toggleLeftDrawer();
-            	mapdata.setGPS(false);
-            	Button bihindbutton = (Button) findViewById(R.id.behind_btn);
-            	bihindbutton.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v) {
-                    	EditText infotext = (EditText)findViewById(R.id.editText1);
-                    	
-                        try {
-                        	SpannableStringBuilder sb = (SpannableStringBuilder)infotext.getText();
+		Button btn5 = (Button) findViewById(R.id.btn5);
+
+		btn4.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				Intent intent = new Intent(Sub1Activity.this, 
+						MainActivity.class );
+				startActivity(intent);
+				//finish(); // アクティビティ終了
+			}
+		});
+		mSlidingMenu = new SimpleSideDrawer(this);
+		mSlidingMenu.setLeftBehindContentView(R.layout.side_menu);
+		btn5.setOnClickListener(new OnClickListener() {
+			@Override 
+			public void onClick(View v) {
+				mapdata.setGPS(true);
+				mapdata.changeGPS(mLocationClient.getLastLocation());
+				mSlidingMenu.toggleLeftDrawer();
+				mapdata.setGPS(false);
+				mapdata.debug_setGPS();
+				Button bihindbutton = (Button) findViewById(R.id.behind_btn);
+				SeekBar seek1 = (SeekBar) findViewById(R.id.seekBar1);
+				SeekBar seek2 = (SeekBar) findViewById(R.id.seekBar2);
+				seek1.setOnSeekBarChangeListener(
+			               new OnSeekBarChangeListener() {
+			                   public void onProgressChanged(SeekBar seekBar,
+			                           int progress, boolean fromUser) {
+			                       mapdata.setBeginpoint(progress);
+			                   }
+			                   public void onStartTrackingTouch(SeekBar seekBar) {}
+			                   public void onStopTrackingTouch(SeekBar seekBar) {}
+			               }
+			       );
+				seek2.setOnSeekBarChangeListener(
+			               new OnSeekBarChangeListener() {
+			                   public void onProgressChanged(SeekBar seekBar,
+			                           int progress, boolean fromUser) {
+			                       mapdata.setEndpoint(progress);
+			                   }	 
+			                   public void onStartTrackingTouch(SeekBar seekBar) {}
+			                   public void onStopTrackingTouch(SeekBar seekBar) {}
+			               }
+			       );
+				bihindbutton.setOnClickListener(new View.OnClickListener() {
+					public void onClick(View v) {
+						EditText infotext = (EditText)findViewById(R.id.editText1);
+						
+						try {
+							SpannableStringBuilder sb = (SpannableStringBuilder)infotext.getText();
 							mapdata.writexml(sb.toString());
 							Toast.makeText(Sub1Activity.this,"ファイルを保存しました",Toast.LENGTH_LONG).show();
 						} catch (ParserConfigurationException e) {
@@ -134,30 +164,28 @@ public class Sub1Activity extends FragmentActivity
 						} catch (IOException e) {
 							AlertBox("ERROR","ファイルの書き込みに失敗");
 						}
-                    }
-                });
-            }
-        });
-        
-		map = ((SupportMapFragment)
-				getSupportFragmentManager().findFragmentById(R.id.map))
-				.getMap();
-		MapsInitializer.initialize(this);
+					}
+				});
+			}
+		});
+
+
 		try {
 			mapdata.setMap(map);
 			if(loadfilename!=null){
 				mapdata.loadxml(loadfilename,!iflocalfile);
-				
+
 			}else{
 				mapdata.setGPS(true);
+				mapdata.CameraUpdate();
 			}
 		} catch (SAXException e) {
 			AlertBox("ERROR","XMLファイルのパースに失敗");
 		} catch (IOException e) {
 			AlertBox("ERROR","ファイルが存在しない");
 		}
-		
-		mapdata.CameraUpdate();
+
+
 
 		if (map != null) {
 			map.setMyLocationEnabled(true);
@@ -167,117 +195,121 @@ public class Sub1Activity extends FragmentActivity
 			// Google Play Servicesに接続
 			mLocationClient.connect();
 		}
-		
-		
+
+
 		// API キーの登録
 		AuthApiKey.initializeAuth(APIKEY);	
-		
-		
-		
-		
+
+
+
+
 		//Location myLocate = mLocationClient.getLastLocation();
-	}
-	protected void onDestroy(){
-		mapdata.onDestroy();
-		super.onDestroy();
-	}
-	
+}
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		return false;
-	}
-	public void AlertBox(String title,String Message){
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        // アラートダイアログのタイトルを設定します
-        alertDialogBuilder.setTitle(title);
-        // アラートダイアログのメッセージを設定します
-        alertDialogBuilder.setMessage(Message);
-     // アラートダイアログの肯定ボタンがクリックされた時に呼び出されるコールバックリスナーを登録します
-        alertDialogBuilder.setPositiveButton("OK",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                });
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        // アラートダイアログを表示します
-        alertDialog.show();
-	}
-	int count =0;
-	@Override
-	public void onLocationChanged(Location location) {
-		// TODO Auto-generated method stub
-		// 現在地に移動
+@Override
+public void onMapLoaded() {
 
-		if(count%212==0){
-			EnvironmentSensorRequestParam requestParam = new EnvironmentSensorRequestParam();
-			SensorAsyncTask task = new SensorAsyncTask(new AlertDialog.Builder(this));
-			requestParam.setLat(mLocationClient.getLastLocation().getLatitude());
-			requestParam.setLon(mLocationClient.getLastLocation().getLongitude());
-			requestParam.setDataType("1013");//1213降水量
-			requestParam.setWithData("1213");
 
-			task.execute(requestParam);	
+}
+protected void onDestroy(){
+	mapdata.onDestroy();
+	super.onDestroy();
+}
+@Override
+public boolean onOptionsItemSelected(MenuItem item) {
+	return false;
+}
+public void AlertBox(String title,String Message){
+	AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+	// アラートダイアログのタイトルを設定します
+	alertDialogBuilder.setTitle(title);
+	// アラートダイアログのメッセージを設定します
+	alertDialogBuilder.setMessage(Message);
+	// アラートダイアログの肯定ボタンがクリックされた時に呼び出されるコールバックリスナーを登録します
+	alertDialogBuilder.setPositiveButton("OK",
+			new DialogInterface.OnClickListener() {
+		@Override
+		public void onClick(DialogInterface dialog, int which) {
 		}
-		mapdata.changeGPS(location);
+	});
+	AlertDialog alertDialog = alertDialogBuilder.create();
+	// アラートダイアログを表示します
+	alertDialog.show();
+}
+int count =0;
+@Override
+public void onLocationChanged(Location location) {
+	// TODO Auto-generated method stub
+	// 現在地に移動
+
+	if(count%212==0){
+		EnvironmentSensorRequestParam requestParam = new EnvironmentSensorRequestParam();
+		SensorAsyncTask task = new SensorAsyncTask(new AlertDialog.Builder(this));
+		requestParam.setLat(mLocationClient.getLastLocation().getLatitude());
+		requestParam.setLon(mLocationClient.getLastLocation().getLongitude());
+		requestParam.setDataType("1013");//1213降水量
+		requestParam.setWithData("1213");
+
+		task.execute(requestParam);	
 	}
+	mapdata.changeGPS(location);
+}
 
 
-	
-	private class SensorAsyncTask extends AsyncTask<EnvironmentSensorRequestParam, Integer, EnvironmentSensorResultData> {
+
+private class SensorAsyncTask extends AsyncTask<EnvironmentSensorRequestParam, Integer, EnvironmentSensorResultData> {
 	private AlertDialog.Builder _dlg;
-	
+
 	private boolean isSdkException = false;
 	private String exceptionMessage = null;
- 
-    public SensorAsyncTask(AlertDialog.Builder dlg) {
-        super();
-        _dlg = dlg;
-    }
- 
+
+	public SensorAsyncTask(AlertDialog.Builder dlg) {
+		super();
+		_dlg = dlg;
+	}
+
 	@Override
 	protected EnvironmentSensorResultData doInBackground(EnvironmentSensorRequestParam... params) {
 		EnvironmentSensorResultData resultData = null;
 		EnvironmentSensorRequestParam req_param = params[0];
 		try {
-			
+
 			// リクエストを実行する
 			EnvironmentSensor environment = new EnvironmentSensor();
 			resultData = environment.request(req_param);
 
-		
+
 		} catch (SdkException ex) {
 			isSdkException = true;
 			exceptionMessage = "ErrorCode: " + ex.getErrorCode() + "\nMessage: " + ex.getMessage();
-			
+
 		} catch (ServerException ex) {
 			exceptionMessage = "ErrorCode: " + ex.getErrorCode() + "\nMessage: " + ex.getMessage();
 		}
-		
+
 		return resultData;
-    }
-	
+	}
+
 	@Override
 	protected void onCancelled() {
 	}
-	
-    @Override
-    protected void onPostExecute(EnvironmentSensorResultData resultData) {
+
+	@Override
+	protected void onPostExecute(EnvironmentSensorResultData resultData) {
 		StringBuffer sb = new StringBuffer();
-		
-    	if(resultData == null){
-    		if(isSdkException){
-    			_dlg.setTitle("SdkException 発生");
-   			
-    		}else{
-    			_dlg.setTitle("ServerException 発生");
-    		}
+
+		if(resultData == null){
+			if(isSdkException){
+				_dlg.setTitle("SdkException 発生");
+
+			}else{
+				_dlg.setTitle("ServerException 発生");
+			}
 			_dlg.setMessage(exceptionMessage + " ");
 			_dlg.show();
 
-    	}else{
-    		
+		}else{
+
 			// 結果表示
 			ArrayList<EnvironmentSensorData> sensorList = resultData.getEnvironmentSensorDataList();
 			if (sensorList != null) {
@@ -307,28 +339,29 @@ public class Sub1Activity extends FragmentActivity
 			/*// ソフトキーボードを非表示にする
             InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(temp.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);*/
-    	}
-    }
+		}
+	}
 }
-	@Override
-	public void onConnected(Bundle connectionHint) {
-		// TODO Auto-generated method stub
-		mLocationClient.requestLocationUpdates(REQUEST,this); // LocationListener
-	}
-	@Override
-	public void onDisconnected() {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void onConnectionFailed(ConnectionResult arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		//getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
+@Override
+public void onConnected(Bundle connectionHint) {
+	// TODO Auto-generated method stub
+	mLocationClient.requestLocationUpdates(REQUEST,this); // LocationListener
+}
+@Override
+public void onDisconnected() {
+	// TODO Auto-generated method stub
+
+}
+@Override
+public void onConnectionFailed(ConnectionResult arg0) {
+	// TODO Auto-generated method stub
+
+}
+@Override
+public boolean onCreateOptionsMenu(Menu menu) {
+	// Inflate the menu; this adds items to the action bar if it is present.
+	//getMenuInflater().inflate(R.menu.main, menu);
+	return true;
+}
+
 }

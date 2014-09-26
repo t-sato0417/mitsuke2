@@ -14,7 +14,13 @@
 
         <TextView
             style="@style/behindMenuItemLabel"
-            android:text="ルートの説明文を入力してください" />
+            android:text="ルートの説明文を入力してください" 
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            
+            >
+             <requestFocus />
+         </TextView>
 
         <EditText
             android:id="@+id/editText1"
@@ -26,11 +32,10 @@
             android:id="@+id/behind_btn"
             style="@style/behindMenuItemLabel"
             android:layout_weight="1"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:text="保存" >
+            android:text="保存"
+             >
 
-            <requestFocus />
+           
         </Button>
 
         <TextView
@@ -44,7 +49,10 @@
             android:id="@+id/seekBar1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="1" 
+            android:progress="0"
+    		android:max="1000"
+            />
 
         <TextView
             android:id="@+id/textView2"
@@ -58,7 +66,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:scrollbarAlwaysDrawVerticalTrack="true" />
+            android:scrollbarAlwaysDrawVerticalTrack="true" 
+            android:progress="1000"
+    		android:max="1000"
+            />
 
     </LinearLayout>
 </ScrollView>
