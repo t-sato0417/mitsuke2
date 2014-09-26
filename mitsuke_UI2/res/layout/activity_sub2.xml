@@ -67,23 +67,24 @@
         android:layout_alignLeft="@+id/category1"
         android:layout_marginBottom="20dp"
         android:text="観光コース" />
-<Button
-        android:id="@+id/category6"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/category4"
-        android:layout_alignLeft="@+id/category1"
-        android:layout_marginBottom="20dp"
-        android:text="便利コース" />
-<Button
-        android:id="@+id/category7"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/category4"
-        android:layout_alignLeft="@+id/category1"
-        android:layout_marginBottom="20dp"
-        android:text="その他のコース" />
 
+<Button
+    android:id="@+id/category7"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentLeft="true"
+    android:layout_below="@+id/category5"
+    android:layout_marginTop="51dp"
+    android:text="その他のコース" />
+
+<Button
+    android:id="@+id/category6"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentLeft="true"
+    android:layout_below="@+id/category4"
+    android:layout_marginTop="58dp"
+    android:text="便利コース" />
 
 </RelativeLayout>
 

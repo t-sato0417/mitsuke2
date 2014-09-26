@@ -81,7 +81,7 @@ public class Sub2Activity extends FragmentActivity {
 
 	        Button category6 = (Button) findViewById(R.id.category6);
 
-	        category5.setOnClickListener(new View.OnClickListener() {
+	        category6.setOnClickListener(new View.OnClickListener() {
 	        	@Override
 	        	public void onClick(View v) {
 	        		Intent intent = new Intent(Sub2Activity.this,
@@ -92,7 +92,7 @@ public class Sub2Activity extends FragmentActivity {
 	        });
 	        Button category7 = (Button) findViewById(R.id.category7);
 
-	        category5.setOnClickListener(new View.OnClickListener() {
+	        category7.setOnClickListener(new View.OnClickListener() {
 	        	@Override
 	        	public void onClick(View v) {
 	        		Intent intent = new Intent(Sub2Activity.this,

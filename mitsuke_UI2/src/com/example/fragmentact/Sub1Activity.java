@@ -295,7 +295,7 @@ public class Sub1Activity extends FragmentActivity
 						//sb.append("　　観測日時 : " + data.getObsDateTime() +"\n");
 						ArrayList<String> valList = data.getValList();
 						for (String val : valList) {
-							sb.append("　　気温 : " + val +"\n");
+							sb.append("　　気温 : " + val +"度\n");
 						}
 					}
 				}

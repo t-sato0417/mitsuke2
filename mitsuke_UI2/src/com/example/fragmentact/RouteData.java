@@ -37,13 +37,13 @@ import com.google.android.gms.maps.model.LatLng;
 public class RouteData{
 	//xmlのデータ.歩行ルートを保持するクラス
 	private List<LatLng> routeline=new ArrayList<LatLng>();
-	
+
 	String catecory;
 	String timestamp;
 	String infomation;
-	
+
 	int color=Color.BLUE;
-	
+
 	public List<LatLng> getroute(){
 		return routeline;	
 	}
@@ -52,17 +52,28 @@ public class RouteData{
 	}
 	public int getColor(){
 		return color;
-		
+
 	}
 	public void addpoint(LatLng latlng){
-		//System.out.println("Debug:routelength:"+routeline.size());
-		routeline.add(latlng);
+		if(routeline.size()>0){
+			double latdiff=Math.abs(latlng.latitude-routeline.get(routeline.size()-1).latitude );
+			double londiff=Math.abs(latlng.longitude-routeline.get(routeline.size()-1).longitude);
+			if(routeline.size()>0){
+				if(	!(latdiff<0.000000000000000000001&&londiff<0.000000000000000000001)	)
+				{
+					routeline.add(latlng);
+				}
+			}
+		}else{
+			routeline.add(latlng);
+		}
+		//routeline.add(latlng);
 	}
-	
+
 	public void loadxml(String filename,boolean online) throws SAXException, IOException{
-		
+
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		
+
 		DocumentBuilder documentBuilder = null;
 		try {
 			documentBuilder = factory.newDocumentBuilder();
@@ -86,8 +97,8 @@ public class RouteData{
 				if(!fp.exists()){
 					throw new IOException("ONLINE");
 				}
-				
-				
+
+
 			}
 		}else{
 			fp = new File(GeneralValue.savefolder+"/"+filename);
@@ -110,62 +121,62 @@ public class RouteData{
 				now.get(Calendar.HOUR_OF_DAY),now.get(Calendar.MINUTE),now.get(Calendar.SECOND)
 				);
 	}
-	
+
 	public void writexml(String info) throws ParserConfigurationException, IOException{
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-	    DocumentBuilder db = dbf.newDocumentBuilder();
-	    Document document = db.newDocument();
-	    // <<<<< DOMオブジェクトの作成までのおきまりのコード
-	    Element root = document.createElement("route");//.createElement("test");
-	    document.appendChild(root);
-	    
-	    Element timestamp = document.createElement("timestamp");
-        root.appendChild(timestamp);
-        Text textContents = document.createTextNode(getTimestamp());
-        timestamp.appendChild(textContents);
-        
-        Element infomation = document.createElement("infomation");
-        if(info.length()==0){
-        	System.out.println("Debug:info:"+info);
-        	textContents = document.createTextNode(getTimestamp()+"に作成されました");
-        }else{
-        	System.out.println("Debug:infomationなし");
-        	textContents = document.createTextNode(info);
-        }
-        infomation.appendChild(textContents);
-        root.appendChild(infomation); 
-        
-        Element latlng = document.createElement("LatLng");    	
-               
-        for(int i=0;i<routeline.size();i++){
-        	Element pt = document.createElement("pt");
-        	
-        	textContents = document.createTextNode(routeline.get(i).latitude+","+routeline.get(i).longitude);
-        	pt.appendChild(textContents);
-        	latlng.appendChild(pt);
-        }
-        root.appendChild(latlng);
-        
-	    StringWriter sw = new StringWriter();
-	    TransformerFactory tfactory = TransformerFactory.newInstance(); 
-	    Transformer transformer = null;
+		DocumentBuilder db = dbf.newDocumentBuilder();
+		Document document = db.newDocument();
+		// <<<<< DOMオブジェクトの作成までのおきまりのコード
+		Element root = document.createElement("route");//.createElement("test");
+		document.appendChild(root);
+
+		Element timestamp = document.createElement("timestamp");
+		root.appendChild(timestamp);
+		Text textContents = document.createTextNode(getTimestamp());
+		timestamp.appendChild(textContents);
+
+		Element infomation = document.createElement("infomation");
+		if(info.length()==0){
+			System.out.println("Debug:info:"+info);
+			textContents = document.createTextNode(getTimestamp()+"に作成されました");
+		}else{
+			System.out.println("Debug:infomationなし");
+			textContents = document.createTextNode(info);
+		}
+		infomation.appendChild(textContents);
+		root.appendChild(infomation); 
+
+		Element latlng = document.createElement("LatLng");    	
+
+		for(int i=0;i<routeline.size();i++){
+			Element pt = document.createElement("pt");
+
+			textContents = document.createTextNode(routeline.get(i).latitude+","+routeline.get(i).longitude);
+			pt.appendChild(textContents);
+			latlng.appendChild(pt);
+		}
+		root.appendChild(latlng);
+
+		StringWriter sw = new StringWriter();
+		TransformerFactory tfactory = TransformerFactory.newInstance(); 
+		Transformer transformer = null;
 		try {
 			transformer = tfactory.newTransformer();
 		} catch (TransformerConfigurationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	    try {
+		try {
 			transformer.transform(new DOMSource(document), new StreamResult(sw));
 		} catch (TransformerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
-	    System.out.println( sw.toString());
-	    
-	    String fname=randmd5();
+		System.out.println( sw.toString());
 
-	    System.out.println("Debug:savexmlfile:"+GeneralValue.savefolder+"/"+fname+".xml");
+		String fname=randmd5();
+
+		System.out.println("Debug:savexmlfile:"+GeneralValue.savefolder+"/"+fname+".xml");
 		FileWriter fw=new FileWriter(GeneralValue.savefolder+"/"+fname+".xml");
 		fw.write(sw.toString());	
 		fw.close();
@@ -197,6 +208,6 @@ public class RouteData{
 		}
 		return strdigest;
 	}
-	
-	
+
+
 }
