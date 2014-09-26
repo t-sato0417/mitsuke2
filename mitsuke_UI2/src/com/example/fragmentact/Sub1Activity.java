@@ -107,17 +107,17 @@ implements OnConnectionFailedListener, LocationListener, ConnectionCallbacks,OnM
 		String loadfilename=parentIntent.getStringExtra("FILENAME");
 		boolean iflocalfile = parentIntent.getBooleanExtra("LOCALFILE",false);
 
-		Button btn4 = (Button) findViewById(R.id.btn4);
+		//Button btn4 = (Button) findViewById(R.id.btn4);
 		Button btn5 = (Button) findViewById(R.id.btn5);
 
-		btn4.setOnClickListener(new View.OnClickListener() {
+		/*btn4.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				Intent intent = new Intent(Sub1Activity.this, 
 						MainActivity.class );
 				startActivity(intent);
 				//finish(); // アクティビティ終了
 			}
-		});
+		});*/
 		mSlidingMenu = new SimpleSideDrawer(this);
 		mSlidingMenu.setLeftBehindContentView(R.layout.side_menu);
 		btn5.setOnClickListener(new OnClickListener() {
