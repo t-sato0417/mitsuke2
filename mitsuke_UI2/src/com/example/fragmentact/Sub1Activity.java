@@ -127,7 +127,7 @@ implements OnConnectionFailedListener, LocationListener, ConnectionCallbacks,OnM
 				mapdata.changeGPS(mLocationClient.getLastLocation());
 				mSlidingMenu.toggleLeftDrawer();
 				mapdata.setGPS(false);
-				mapdata.debug_setGPS();
+				//mapdata.debug_setGPS();
 				Button bihindbutton = (Button) findViewById(R.id.behind_btn);
 				SeekBar seek1 = (SeekBar) findViewById(R.id.seekBar1);
 				SeekBar seek2 = (SeekBar) findViewById(R.id.seekBar2);
