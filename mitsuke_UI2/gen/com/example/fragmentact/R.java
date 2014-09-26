@@ -410,10 +410,10 @@ containing a value of this type.
         public static final int taru=0x7f020021;
     }
     public static final class id {
-        public static final int LinearLayout=0x7f070021;
-        public static final int RelativeLayout=0x7f070020;
-        public static final int action_settings=0x7f070027;
-        public static final int behind_btn=0x7f070023;
+        public static final int LinearLayout=0x7f070022;
+        public static final int RelativeLayout=0x7f070021;
+        public static final int action_settings=0x7f070028;
+        public static final int behind_btn=0x7f070024;
         public static final int book_now=0x7f070010;
         public static final int btn2=0x7f070015;
         public static final int btn3=0x7f070016;
@@ -422,13 +422,13 @@ containing a value of this type.
         public static final int buyButton=0x7f07000a;
         public static final int buy_now=0x7f07000f;
         public static final int buy_with_google=0x7f07000e;
-        public static final int category1=0x7f07001b;
-        public static final int category2=0x7f07001c;
-        public static final int category3=0x7f07001d;
-        public static final int category4=0x7f07001e;
-        public static final int category5=0x7f07001f;
+        public static final int category1=0x7f07001c;
+        public static final int category2=0x7f07001d;
+        public static final int category3=0x7f07001e;
+        public static final int category4=0x7f07001f;
+        public static final int category5=0x7f070020;
         public static final int classic=0x7f070011;
-        public static final int editText1=0x7f070022;
+        public static final int editText1=0x7f070023;
         public static final int grayscale=0x7f070012;
         public static final int holo_dark=0x7f070005;
         public static final int holo_light=0x7f070006;
@@ -442,13 +442,14 @@ containing a value of this type.
         public static final int production=0x7f070007;
         public static final int sandbox=0x7f070008;
         public static final int satellite=0x7f070002;
-        public static final int seekBar1=0x7f070024;
-        public static final int seekBar2=0x7f070026;
+        public static final int seekBar1=0x7f070025;
+        public static final int seekBar2=0x7f070027;
         public static final int selectionDetails=0x7f07000b;
         public static final int strict_sandbox=0x7f070009;
+        public static final int tempview=0x7f07001a;
         public static final int terrain=0x7f070003;
-        public static final int textView1=0x7f07001a;
-        public static final int textView2=0x7f070025;
+        public static final int textView1=0x7f07001b;
+        public static final int textView2=0x7f070026;
         public static final int wrap_content=0x7f07000d;
     }
     public static final class integer {

@@ -11,16 +11,16 @@ import com.jcraft.jsch.*;
 public class Sftp extends Thread{
 	private static final String hostname = "153.121.37.74";
 	private static final int	portnumber	= 5750;
-	private static final String userid   = "osawa";
+	private static final String userid   = "satokun";
 	private static final String password = "mitsuke2";
 	
 	boolean get;//trueならget falseならput
 	String srcfile;
 	String dstfile;
-	public void setSetting(String filename,String dstfile,boolean get){
-		System.out.println("Debug:sftp:srcfile:"+srcfile+" dstfile:"+dstfile+" ifget:"+get);
+	public void setSetting(String srcname,String dstfile,boolean get){
+		System.out.println("Debug:sftp:srcfile:"+srcname+" dstfile:"+dstfile+" ifget:"+get);
 		this.get=get;
-		this.srcfile=filename;
+		this.srcfile=srcname;
 		this.dstfile=dstfile;
 	}
 	
@@ -64,25 +64,30 @@ public class Sftp extends Thread{
 			System.out.println(list.get(i));
 		}
 
-		// lstat
-		try {
-			
-			SftpATTRS stat = channel.lstat("index.html");
-			System.out.println("---- lstat");
-			System.out.println(stat);
-			System.out.println(stat.getSize());
-		} catch (SftpException ex) { 
-			// ファイルが存在しないとき
-			System.out.println("Debug:notfile");
-			ex.printStackTrace();
-		}
+		
 
 		// get
 		if(get){
+			// lstat
+			try {
+				
+				SftpATTRS stat = channel.lstat("index.html");
+				System.out.println("---- lstat");
+				System.out.println(stat);
+				System.out.println(stat.getSize());
+			} catch (SftpException ex) { 
+				// ファイルが存在しないとき
+				System.out.println("Debug:notfile");
+				ex.printStackTrace();
+			}
 			//channel.get("./index.html", Environment.getExternalStorageDirectory().getPath()+"/index.html.dst");
 			channel.get(srcfile,dstfile);
 		}else{
-			channel.put(srcfile,dstfile);
+			try {
+				channel.put(srcfile,dstfile);
+			} catch (SftpException ex) { 
+				System.out.println("Put失敗"+ex.toString());
+			}
 		}
 
 		channel.disconnect();

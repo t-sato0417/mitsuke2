@@ -55,10 +55,12 @@ public class RouteData{
 		
 	}
 	public void addpoint(LatLng latlng){
+		//System.out.println("Debug:routelength:"+routeline.size());
 		routeline.add(latlng);
 	}
 	
 	public void loadxml(String filename,boolean online) throws SAXException, IOException{
+		
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		
 		DocumentBuilder documentBuilder = null;
@@ -82,7 +84,7 @@ public class RouteData{
 				
 			}
 		}else{
-			fp = new File(GeneralValue.savefolder+filename);
+			fp = new File(GeneralValue.savefolder+"/"+filename);
 		}
 
 		Document document = documentBuilder.parse(fp);
@@ -159,7 +161,8 @@ public class RouteData{
 
 	    System.out.println("Debug:savexmlfile:"+GeneralValue.savefolder+"/"+fname+".xml");
 		FileWriter fw=new FileWriter(GeneralValue.savefolder+"/"+fname+".xml");
-		fw.write(sw.toString());	    
+		fw.write(sw.toString());	
+		fw.close();
 	}
 	public String randmd5(){
 		double hashseed=Math.random();

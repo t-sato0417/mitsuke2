@@ -51,6 +51,7 @@ public class MapControl {
 			
 		}
 		addpoint(new LatLng(location.getLatitude(), location.getLongitude()));
+		drawrouteall();
 	}
 	
 	public void loadxml(String filename,boolean online) throws SAXException, IOException{
@@ -66,7 +67,14 @@ public class MapControl {
 			routedata.add(i,new RouteData());
 			routedata.get(i).loadxml(filename,online);
 			routedata.get(1).setColor(Color.RED);
+			setGPS(false);
+			CameraUpdate cu = 
+					CameraUpdateFactory.newLatLngZoom(
+							routedata.get(i).getroute().get(0), defZoom);
+				map.moveCamera(cu);
+			
 		}
+		drawrouteall();
 	}
 	void writexml(String info) throws ParserConfigurationException, IOException{
 		routedata.get(0).writexml(info);
@@ -85,7 +93,7 @@ public class MapControl {
 		
 		map.addPolyline(new PolylineOptions()
 	    .addAll(routedata.get(routeindex).getroute())
-	    .width(8)
+	    .width(15)
 	    .color(routedata.get(routeindex).getColor()));
 	}
 	public void drawrouteall(){

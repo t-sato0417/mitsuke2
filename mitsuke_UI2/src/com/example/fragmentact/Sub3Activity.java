@@ -41,14 +41,16 @@ public class Sub3Activity extends FragmentActivity {
 	Element file;
 	Document document;
 	
-	TextView subtitle;
+	//TextView subtitle;
 	String loadfile;
+	LinearLayout lla;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_sub3);
 		
-		subtitle = (TextView)findViewById(R.id.textView1);
+		//subtitle = (TextView)findViewById(R.id.textView1);
+		lla = (LinearLayout)findViewById(R.id.LinearLayout);//new LinearLayout(this);
 		
 		System.out.println("Debug:ActivitySub3");
 		try {
@@ -63,12 +65,9 @@ public class Sub3Activity extends FragmentActivity {
 	}
 
 	public void localfilebutton(){
-		subtitle.setText("作成されたルートファイル");
+		//subtitle.setText("作成されたルートファイル");
 		System.out.println("Debug:localfilebuton");
 		
-		LinearLayout lla = (LinearLayout)findViewById(R.id.LinearLayout);//new LinearLayout(this);
-		//lla.setOrientation(LinearLayout.VERTICAL);
-		//setContentView(lla);
 		
 		File folder = new File(GeneralValue.savefolder);
 		String filelist[] =folder.list();
@@ -105,10 +104,13 @@ public class Sub3Activity extends FragmentActivity {
 			localfilebutton();
 			return ;
 		}
-		subtitle.setText("カテゴリーのファイル");
+		//subtitle.setText("カテゴリーのファイル");
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder documentBuilder = factory.newDocumentBuilder();
-		File fp = new File(Environment.getExternalStorageDirectory().getPath()+"/mitsuke2/manage_test.xml");
+		File fp = new File(Environment.getExternalStorageDirectory().getPath()+"/mitsuke2/manage.xml");
+		if(!fp.exists()){
+			System.out.println("Debug:manage.xmlが存在しない");
+		}
 		document = documentBuilder.parse(fp);
 
 		Element root = document.getDocumentElement();			
@@ -116,9 +118,6 @@ public class Sub3Activity extends FragmentActivity {
 
 		//int max =infotags.getLength();
 		//List<Button> button = new ArrayList<Button>();
-		LinearLayout lla = (LinearLayout)findViewById(R.id.LinearLayout);//new LinearLayout(this);
-		lla.setOrientation(LinearLayout.VERTICAL);
-		setContentView(lla);
 
 		Node eat_out =document.getElementsByTagName(category).item(0);
 		for(array=0;array<document.getElementsByTagName("file").getLength();array++){
@@ -140,7 +139,7 @@ public class Sub3Activity extends FragmentActivity {
 						startActivity(intent);
 					}
 				});
-				//lla.addView(insertbutton, new LinearLayout.LayoutParams(wc, wc));
+				lla.addView(insertbutton, new LinearLayout.LayoutParams(wc, wc));
 			}
 		}
 
@@ -181,6 +180,7 @@ public class Sub3Activity extends FragmentActivity {
 				//intentsub1();
 				Sftp sftp=new Sftp();
 				sftp.setSetting(GeneralValue.savefolder+"/"+loadfile,GeneralValue.onlinedir+"/"+loadfile, false);
+				sftp.start();
 			}
 		});
 		alertDialogBuilder.setNegativeButton("削除",

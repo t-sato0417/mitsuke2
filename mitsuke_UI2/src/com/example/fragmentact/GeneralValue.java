@@ -9,5 +9,5 @@ public class GeneralValue {
 	//ユーザがセーブしたXMLを保存するフォルダ
 	static String cachefolder = Environment.getExternalStorageDirectory().getPath()+"/mitsuke2/cache";
 	//オンラインから取得したXMLを保存するフォルダ。
-	static String onlinedir = "xml";
+	static String onlinedir = "/mitsuke_route/XML";
 }
