@@ -71,16 +71,22 @@ public class RouteData{
 		}
 		File fp=null;
 		if(online){
-			fp = new File(GeneralValue.cachefolder+filename);
+			fp = new File(GeneralValue.cachefolder+"/"+filename);
 			if(!fp.exists()){//キャッシュファイルに存在しない。
 				//オンラインから取得
 				Sftp sftp =new Sftp();
-				sftp.setSetting(GeneralValue.onlinedir+"/"+online,
+				sftp.setSetting(GeneralValue.onlinedir+"/"+filename,
 						GeneralValue.cachefolder+"/"+filename,true);
 				sftp.start();
+				try {
+					sftp.join();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 				if(!fp.exists()){
 					throw new IOException("ONLINE");
 				}
+				
 				
 			}
 		}else{

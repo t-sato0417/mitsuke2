@@ -108,9 +108,18 @@ public class Sub3Activity extends FragmentActivity {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder documentBuilder = factory.newDocumentBuilder();
 		File fp = new File(Environment.getExternalStorageDirectory().getPath()+"/mitsuke2/manage.xml");
-		if(!fp.exists()){
-			System.out.println("Debug:manage.xmlÇ™ë∂ç›ÇµÇ»Ç¢");
+		
+		//System.out.println("Debug:manage.xmlÇ™ë∂ç›ÇµÇ»Ç¢");
+		Sftp sftp = new Sftp();
+		System.out.println("Debug:AccessFIle:"+GeneralValue.onlinedir+"/manage.xml");
+		sftp.setSetting(GeneralValue.onlinedir+"/manage.xml",GeneralValue.approot+"/manage.xml",true);
+		sftp.start();
+		try {
+			sftp.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
+		
 		document = documentBuilder.parse(fp);
 
 		Element root = document.getDocumentElement();			
@@ -190,6 +199,7 @@ public class Sub3Activity extends FragmentActivity {
 				System.out.println("Debug:Deletefile:"+GeneralValue.approot+"/"+loadfile);
 				File fp = new File(GeneralValue.approot+"/"+loadfile);
 				fp.delete();
+				//fp.close();
 			}
 		});
 		AlertDialog alertDialog = alertDialogBuilder.create();

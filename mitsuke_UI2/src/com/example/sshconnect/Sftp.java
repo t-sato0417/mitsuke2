@@ -17,6 +17,7 @@ public class Sftp extends Thread{
 	boolean get;//true‚È‚çget false‚È‚çput
 	String srcfile;
 	String dstfile;
+	
 	public void setSetting(String srcname,String dstfile,boolean get){
 		System.out.println("Debug:sftp:srcfile:"+srcname+" dstfile:"+dstfile+" ifget:"+get);
 		this.get=get;
@@ -71,7 +72,7 @@ public class Sftp extends Thread{
 			// lstat
 			try {
 				
-				SftpATTRS stat = channel.lstat("index.html");
+				SftpATTRS stat = channel.lstat(srcfile);
 				System.out.println("---- lstat");
 				System.out.println(stat);
 				System.out.println(stat.getSize());

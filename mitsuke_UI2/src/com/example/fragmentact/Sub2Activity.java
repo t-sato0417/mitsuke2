@@ -38,7 +38,7 @@ public class Sub2Activity extends FragmentActivity {
 	            public void onClick(View v) {
 	                Intent intent = new Intent(Sub2Activity.this,
 	                		Sub3Activity.class );
-	                intent.putExtra("CATEGORY", "walk");
+	                intent.putExtra("CATEGORY", "public");
 	                startActivity(intent);
 	            }
 	        });
@@ -50,7 +50,7 @@ public class Sub2Activity extends FragmentActivity {
 	            public void onClick(View v) {
 	                Intent intent = new Intent(Sub2Activity.this,
 	                		Sub3Activity.class );
-	                intent.putExtra("CATEGORY", "eat_out");
+	                intent.putExtra("CATEGORY", "walk");
 	                startActivity(intent);
 	            }
 	        });
@@ -62,7 +62,7 @@ public class Sub2Activity extends FragmentActivity {
 	            public void onClick(View v) {
 	                Intent intent = new Intent(Sub2Activity.this,
 	                		Sub3Activity.class );
-	                intent.putExtra("CATEGORY", "walk");
+	                intent.putExtra("CATEGORY", "food");
 	                startActivity(intent);
 	            }
 	        });
@@ -72,14 +72,38 @@ public class Sub2Activity extends FragmentActivity {
 	        category5.setOnClickListener(new View.OnClickListener() {
 	            @Override
 	            public void onClick(View v) {
-	                Intent intent = new Intent(Sub2Activity.this,
-	                		Sub3Activity.class );
-	                intent.putExtra("CATEGORY", "walk");
-	                startActivity(intent);
+	            	Intent intent = new Intent(Sub2Activity.this,
+	            			Sub3Activity.class );
+	            	intent.putExtra("CATEGORY", "sightseeing");
+	            	startActivity(intent);
 	            }
 	        });
+
+	        Button category6 = (Button) findViewById(R.id.category6);
+
+	        category5.setOnClickListener(new View.OnClickListener() {
+	        	@Override
+	        	public void onClick(View v) {
+	        		Intent intent = new Intent(Sub2Activity.this,
+	        				Sub3Activity.class );
+	        		intent.putExtra("CATEGORY", "other");
+	        		startActivity(intent);
+	        	}
+	        });
+	        Button category7 = (Button) findViewById(R.id.category7);
+
+	        category5.setOnClickListener(new View.OnClickListener() {
+	        	@Override
+	        	public void onClick(View v) {
+	        		Intent intent = new Intent(Sub2Activity.this,
+	        				Sub3Activity.class );
+	        		intent.putExtra("CATEGORY", "convenience");
+	        		startActivity(intent);
+	        	}
+	        });
+	        
 	        /*
-	  
+
 	        // ArrayAdapter ÇçÏê¨  
 	        String items[] = {"ÉJÉeÉSÉäÇëIÇÒÇ≈Ç≠ÇæÇ≥Ç¢","items1","items2"};
 	        ArrayAdapter<String> adapter
