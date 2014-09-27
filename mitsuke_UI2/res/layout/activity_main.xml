@@ -43,8 +43,8 @@
             android:layout_marginBottom="32dp"
             android:layout_row="0"
             android:background="@drawable/buttonstyle1"
-            android:textColor="#DDDDDD"
-            android:text="地図作成" />
+            android:text="地図作成"
+            android:textColor="#404040" />
 
         <Button
             android:id="@+id/btn3"
@@ -56,7 +56,7 @@
             android:layout_row="0"
             android:background="@drawable/buttonstyle1"
             android:text="ルート閲覧"
-            android:textColor="#DDDDDD" />
+            android:textColor="#404040" />
 
     </GridLayout>
 

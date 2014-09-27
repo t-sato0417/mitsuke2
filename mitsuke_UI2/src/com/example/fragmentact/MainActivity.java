@@ -73,7 +73,7 @@ public class MainActivity extends FragmentActivity{
 	@Override
 	public boolean dispatchKeyEvent(KeyEvent e) {
 		//System.out.println("clicked");
-	   // DOWNとUPが取得できるのでログの2重表示防止のためif
+	   // DOWNとUPが取得できるのでログの2重表示防止ためif
 	   if (e.getKeyCode() == KeyEvent.KEYCODE_MENU) {
 	       //キーコード表示
 	       System.out.println("KeyCode:"+ e.getKeyCode());

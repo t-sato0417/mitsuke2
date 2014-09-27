@@ -194,6 +194,44 @@ public class Sub3Activity extends FragmentActivity {
 
 		}
 	}
+	public void fileinfo(String info,String timestamp){
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+		// アラートダイアログのタイトルを設定します
+		alertDialogBuilder.setTitle("ファイル選択");
+		// アラートダイアログのメッセージを設定します
+		alertDialogBuilder.setMessage("");
+		// アラートダイアログの肯定ボタンがクリックされた時に呼び出されるコールバックリスナーを登録します
+		alertDialogBuilder.setPositiveButton("ルートを閲覧",
+				new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				intentsub1();
+			}
+		});
+		alertDialogBuilder.setNeutralButton("ルートを共有",
+				new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				//intentsub1();
+				Sftp sftp=new Sftp();
+				sftp.setSetting(GeneralValue.savefolder+"/"+loadfile,GeneralValue.onlinedir+"/"+loadfile, false);
+				sftp.start();
+			}
+		});
+		alertDialogBuilder.setNegativeButton("削除",
+				new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				System.out.println("Debug:Deletefile:"+GeneralValue.approot+"/"+loadfile);
+				deleteFile(GeneralValue.approot+"/"+loadfile);
+				localfilebutton();
+				//fp.close();
+			}
+		});
+		AlertDialog alertDialog = alertDialogBuilder.create();
+		// アラートダイアログを表示します
+		alertDialog.show();
+	}
 	public void saveorview(){
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 		// アラートダイアログのタイトルを設定します
