@@ -133,7 +133,7 @@ public class Sub3Activity extends FragmentActivity {
 		//subtitle.setText("カテゴリーのファイル");
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder documentBuilder = factory.newDocumentBuilder();
-		File fp = new File(GeneralValue.approot+"/mitsuke2/manage.xml");
+		File fp = new File(GeneralValue.approot+"/manage.xml");
 		
 		//System.out.println("Debug:manage.xmlが存在しない");
 		Sftp sftp = new Sftp();
@@ -148,8 +148,7 @@ public class Sub3Activity extends FragmentActivity {
 		
 		document = documentBuilder.parse(fp);
 
-		Element root = document.getDocumentElement();			
-		file = document.getDocumentElement();
+		
 
 		//int max =infotags.getLength();
 		//List<Button> button = new ArrayList<Button>();
