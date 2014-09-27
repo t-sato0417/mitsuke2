@@ -2,6 +2,8 @@ package com.example.fragmentact;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -221,7 +223,7 @@ public class Sub3Activity extends FragmentActivity {
 				new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				System.out.println("Debug:Deletefile:"+GeneralValue.approot+"/"+loadfile);
+				System.out.println("Debug:Deletefile:"+GeneralValue.savefolder+"/"+loadfile);
 				//deleteFile(GeneralValue.approot+"/"+loadfile);
 				
 				File deleteFile = new File(GeneralValue.savefolder+"/"+loadfile);
@@ -263,9 +265,19 @@ public class Sub3Activity extends FragmentActivity {
 				new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				System.out.println("Debug:Deletefile:"+GeneralValue.approot+"/"+loadfile);
-				deleteFile(GeneralValue.approot+"/"+loadfile);
-				localfilebutton();
+				//System.out.println("Debug:Deletefile:"+GeneralValue.approot+"/"+loadfile);
+				//deleteFile(GeneralValue.approot+"/"+loadfile);
+				
+				System.out.println("Debug:Deletefile:"+GeneralValue.savefolder+"/"+loadfile);
+				File deleteFolder = new File(GeneralValue.savefolder+"/"+loadfile);
+				deleteFolder.delete();
+                Intent intent = new Intent(Sub3Activity.this,
+                		Sub2Activity.class );
+                
+                startActivity(intent);
+				//lla.invalidate();
+				
+				//localfilebutton();
 				//fp.close();
 			}
 		});
