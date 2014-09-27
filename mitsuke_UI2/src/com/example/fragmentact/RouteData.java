@@ -122,13 +122,21 @@ public class RouteData{
 				);
 	}
 
-	public void writexml(String info) throws ParserConfigurationException, IOException{
+	public void writexml(String info,String categorytext) throws ParserConfigurationException, IOException{
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		DocumentBuilder db = dbf.newDocumentBuilder();
 		Document document = db.newDocument();
 		// <<<<< DOMオブジェクトの作成までのおきまりのコード
-		Element root = document.createElement("route");//.createElement("test");
-		document.appendChild(root);
+		Element route = document.createElement("route");//.createElement("test");
+		document.appendChild(route);
+		String categorytag="other";
+		if((categorytext!=null&&categorytext.length()!=0)){
+			categorytag=categorytext;
+		}
+		Element root = document.createElement(categorytag);
+		route.appendChild(root);
+
+
 
 		Element timestamp = document.createElement("timestamp");
 		root.appendChild(timestamp);
@@ -143,8 +151,7 @@ public class RouteData{
 			System.out.println("Debug:infomationなし");
 			textContents = document.createTextNode(info);
 		}
-		infomation.appendChild(textContents);
-		root.appendChild(infomation); 
+
 
 		Element latlng = document.createElement("LatLng");    	
 

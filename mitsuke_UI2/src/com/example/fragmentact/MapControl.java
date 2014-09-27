@@ -98,8 +98,8 @@ public class MapControl {
 		}
 		drawrouteall();
 	}
-	void writexml(String info) throws ParserConfigurationException, IOException{
-		routedata.get(0).writexml(info);
+	void writexml(String info,String category) throws ParserConfigurationException, IOException{
+		routedata.get(0).writexml(info,category);
 	}
 	public void setMap(GoogleMap map) throws SAXException, IOException{
 		System.out.println("Debug:"+"setmap");

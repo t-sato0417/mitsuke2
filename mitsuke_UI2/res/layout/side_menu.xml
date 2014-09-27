@@ -28,15 +28,41 @@
             android:layout_height="wrap_content"
             android:ems="10" />
 
-        <Button
-            android:id="@+id/behind_btn"
-            style="@style/behindMenuItemLabel"
-            android:layout_weight="1"
-            android:text="保存"
-             >
+        <TextView
+            android:id="@+id/catetext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="分類:" />
 
-           
-        </Button>
+        <RelativeLayout
+            android:layout_width="142dp"
+            android:layout_height="match_parent" >
+
+            <Button
+                android:id="@+id/behind_btn"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="保存" />
+
+            <Button
+                android:id="@+id/catebtn1"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginRight="14dp"
+                android:text="分類" />
+
+        </RelativeLayout>
+
+        <GridLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:columnCount="1" >
+
+        </GridLayout>
 
         <TextView
             android:id="@+id/textView1"
