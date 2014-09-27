@@ -278,11 +278,12 @@ implements OnConnectionFailedListener, LocationListener, ConnectionCallbacks,OnM
 		// TODO Auto-generated method stub
 		// åªç›ínÇ…à⁄ìÆ
 
-		if(count%212==0){
+		if(count%120==0){//120*5second=10minute
 			EnvironmentSensorRequestParam requestParam = new EnvironmentSensorRequestParam();
 			SensorAsyncTask task = new SensorAsyncTask(new AlertDialog.Builder(this));
 			requestParam.setLat(mLocationClient.getLastLocation().getLatitude());
 			requestParam.setLon(mLocationClient.getLastLocation().getLongitude());
+			requestParam.setLimit("1");
 			requestParam.setDataType("1013");//1213ç~êÖó 
 			requestParam.setWithData("1213");
 
@@ -342,7 +343,7 @@ implements OnConnectionFailedListener, LocationListener, ConnectionCallbacks,OnM
 					_dlg.setTitle("ServerException î≠ê∂");
 				}
 				_dlg.setMessage(exceptionMessage + " ");
-				_dlg.show();
+				//_dlg.show();
 
 			}else{
 
@@ -352,6 +353,7 @@ implements OnConnectionFailedListener, LocationListener, ConnectionCallbacks,OnM
 					for (EnvironmentSensorData sensorData : sensorList) {
 						//sb.append("ãíì_ID : " + sensorData.getId() +"\n");
 						//sb.append("ñºèÃ : " + sensorData.getName() +"\n");
+						
 						sb.append("ìsìπï{åß : " + sensorData.getPrefecture() +"\n");
 						sb.append("ésãÊí¨ë∫ : " + sensorData.getCity() +"\n");
 						//sb.append("à‹ìx : " + sensorData.getLat() +"\n");
