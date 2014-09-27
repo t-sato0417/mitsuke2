@@ -222,7 +222,11 @@ public class Sub3Activity extends FragmentActivity {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				System.out.println("Debug:Deletefile:"+GeneralValue.approot+"/"+loadfile);
-				deleteFile(GeneralValue.approot+"/"+loadfile);
+				//deleteFile(GeneralValue.approot+"/"+loadfile);
+				
+				File deleteFile = new File(GeneralValue.savefolder+"/"+loadfile);
+				deleteFile.delete();
+				
 				localfilebutton();
 				//fp.close();
 			}

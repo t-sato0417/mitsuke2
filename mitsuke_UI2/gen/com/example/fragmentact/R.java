@@ -473,9 +473,9 @@ containing a value of this type.
         public static final int main=0x7f0a0000;
     }
     public static final class string {
-        public static final int SpinnerPrompt=0x7f060020;
         public static final int action_settings=0x7f06001d;
         public static final int app_name=0x7f06001a;
+        public static final int category=0x7f060020;
         /**  Button in confirmation dialog to enable Google Play services.  Clicking it
         will direct user to application settings of Google Play services where they
         can enable it [CHAR LIMIT=40] 

@@ -129,29 +129,35 @@ public class RouteData{
 		// <<<<< DOMオブジェクトの作成までのおきまりのコード
 		Element route = document.createElement("route");//.createElement("test");
 		document.appendChild(route);
+		
+		//カテゴリタグの追加
 		String categorytag="other";
 		if((categorytext!=null&&categorytext.length()!=0)){
 			categorytag=categorytext;
 		}
-		Element root = document.createElement(categorytag);
-		route.appendChild(root);
+		
+		Element category = document.createElement("category");
+		route.appendChild(category);
+		Text textContents = document.createTextNode(categorytag);
+		category.appendChild(textContents);
 
-
-
+		//タイムスタンプタグを生成
 		Element timestamp = document.createElement("timestamp");
-		root.appendChild(timestamp);
-		Text textContents = document.createTextNode(getTimestamp());
+		route.appendChild(timestamp);
+		textContents = document.createTextNode(getTimestamp());
 		timestamp.appendChild(textContents);
-
+		
+		//インフォメーションタグを生成
 		Element infomation = document.createElement("infomation");
-		if(info.length()==0){
+		route.appendChild(infomation);
+		if(info.length()==0){ //informationに書き込みがない
 			System.out.println("Debug:info:"+info);
 			textContents = document.createTextNode(getTimestamp()+"に作成されました");
-		}else{
+		}else{ //informationに書き込みがある
 			System.out.println("Debug:infomationなし");
 			textContents = document.createTextNode(info);
 		}
-
+		infomation.appendChild(textContents);
 
 		Element latlng = document.createElement("LatLng");    	
 
@@ -162,7 +168,7 @@ public class RouteData{
 			pt.appendChild(textContents);
 			latlng.appendChild(pt);
 		}
-		root.appendChild(latlng);
+		route.appendChild(latlng);
 
 		StringWriter sw = new StringWriter();
 		TransformerFactory tfactory = TransformerFactory.newInstance(); 

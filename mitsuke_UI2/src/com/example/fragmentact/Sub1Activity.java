@@ -220,8 +220,8 @@ implements OnConnectionFailedListener, LocationListener, ConnectionCallbacks,OnM
 
 				//Location myLocate = mLocationClient.getLastLocation();
 	}
-	String[] cateitems = {"公共施設ルート","ウォキングルート","食べ物ルート","観光ルート","その他のルート","便利ルート"};
-	String[] categorys = {"public","walk","food","sightseeing","other","convenience"};
+	String[] cateitems = {"公共施設ルート","ウォーキングルート","食べ物ルート","観光ルート","便利ルート","その他のルート"};
+	String[] categorys = {"public","walk","food","sightseeing","convenience","other"};
 	
 	// アイテムのリスナー //
     DialogInterface.OnClickListener mItemListener = new DialogInterface.OnClickListener() {
