@@ -86,7 +86,7 @@ public class Sub2Activity extends FragmentActivity {
 	        	public void onClick(View v) {
 	        		Intent intent = new Intent(Sub2Activity.this,
 	        				Sub3Activity.class );
-	        		intent.putExtra("CATEGORY", "other");
+	        		intent.putExtra("CATEGORY", "convenience");
 	        		startActivity(intent);
 	        	}
 	        });
@@ -97,7 +97,7 @@ public class Sub2Activity extends FragmentActivity {
 	        	public void onClick(View v) {
 	        		Intent intent = new Intent(Sub2Activity.this,
 	        				Sub3Activity.class );
-	        		intent.putExtra("CATEGORY", "convenience");
+	        		intent.putExtra("CATEGORY", "other");
 	        		startActivity(intent);
 	        	}
 	        });

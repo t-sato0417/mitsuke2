@@ -99,7 +99,7 @@ int drawable powered_by_google_light 0x7f020024
 int drawable taru 0x7f020025
 int id LinearLayout 0x7f070023
 int id RelativeLayout 0x7f070022
-int id action_settings 0x7f07002b
+int id action_settings 0x7f070028
 int id behind_btn 0x7f070026
 int id book_now 0x7f070010
 int id btn2 0x7f070015
@@ -132,14 +132,11 @@ int id normal 0x7f070001
 int id production 0x7f070007
 int id sandbox 0x7f070008
 int id satellite 0x7f070002
-int id seekBar1 0x7f070028
-int id seekBar2 0x7f07002a
 int id selectionDetails 0x7f07000b
 int id strict_sandbox 0x7f070009
 int id tempview 0x7f070019
 int id terrain 0x7f070003
 int id textView1 0x7f07001a
-int id textView2 0x7f070029
 int id wrap_content 0x7f07000d
 int integer google_play_services_version 0x7f080000
 int layout activity_main 0x7f030000

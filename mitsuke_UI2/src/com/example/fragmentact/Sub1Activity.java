@@ -137,9 +137,9 @@ implements OnConnectionFailedListener, LocationListener, ConnectionCallbacks,OnM
 				//mapdata.debug_setGPS();
 				Button bihindbutton = (Button) findViewById(R.id.behind_btn);
 				Button catebutton = (Button) findViewById(R.id.catebtn1);
-				SeekBar seek1 = (SeekBar) findViewById(R.id.seekBar1);
-				SeekBar seek2 = (SeekBar) findViewById(R.id.seekBar2);
-				seek1.setOnSeekBarChangeListener(
+				//SeekBar seek1 = (SeekBar) findViewById(R.id.seekBar1);
+				//SeekBar seek2 = (SeekBar) findViewById(R.id.seekBar2);
+				/*seek1.setOnSeekBarChangeListener(
 						new OnSeekBarChangeListener() {
 							public void onProgressChanged(SeekBar seekBar,
 									int progress, boolean fromUser) {
@@ -158,7 +158,7 @@ implements OnConnectionFailedListener, LocationListener, ConnectionCallbacks,OnM
 							public void onStartTrackingTouch(SeekBar seekBar) {}
 							public void onStopTrackingTouch(SeekBar seekBar) {}
 						}
-						);
+						);*/
 				catebutton.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
 						

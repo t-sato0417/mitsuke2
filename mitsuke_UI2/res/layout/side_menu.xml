@@ -63,14 +63,14 @@
             android:columnCount="1" >
 
         </GridLayout>
-
+<!--
         <TextView
             android:id="@+id/textView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="始点"
             android:textColor="#FFFFFF" />
-
+  
         <SeekBar
             android:id="@+id/seekBar1"
             android:layout_width="match_parent"
@@ -96,6 +96,6 @@
             android:progress="1000"
     		android:max="1000"
             />
-
+-->
     </LinearLayout>
 </ScrollView>
