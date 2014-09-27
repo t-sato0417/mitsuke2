@@ -93,9 +93,10 @@ int drawable ic_plusone_tall_off_client 0x7f02001e
 int drawable image10 0x7f02001f
 int drawable image133 0x7f020020
 int drawable image15 0x7f020021
-int drawable powered_by_google_dark 0x7f020022
-int drawable powered_by_google_light 0x7f020023
-int drawable taru 0x7f020024
+int drawable image17 0x7f020022
+int drawable powered_by_google_dark 0x7f020023
+int drawable powered_by_google_light 0x7f020024
+int drawable taru 0x7f020025
 int id LinearLayout 0x7f070023
 int id RelativeLayout 0x7f070022
 int id action_settings 0x7f070029

@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:baselineAlignBottom="false"
         android:paddingTop="0dp"
-        android:src="@drawable/image15" />
+        android:src="@drawable/image10" />
 
     <GridLayout
         android:layout_width="wrap_content"

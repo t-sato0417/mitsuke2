@@ -408,9 +408,10 @@ containing a value of this type.
         public static final int image10=0x7f02001f;
         public static final int image133=0x7f020020;
         public static final int image15=0x7f020021;
-        public static final int powered_by_google_dark=0x7f020022;
-        public static final int powered_by_google_light=0x7f020023;
-        public static final int taru=0x7f020024;
+        public static final int image17=0x7f020022;
+        public static final int powered_by_google_dark=0x7f020023;
+        public static final int powered_by_google_light=0x7f020024;
+        public static final int taru=0x7f020025;
     }
     public static final class id {
         public static final int LinearLayout=0x7f070023;
